@@ -1,0 +1,276 @@
+{
+    "name": "storm-app",
+    "description": "Sample application to test Apache Storm on Magalix.",
+    "target_cloud": {
+        "type": "aws",
+        "region": "us-east",
+        "zone": "us-east-a"
+    },
+    "labels": [
+        {
+            "label": "environment",
+            "value": "dev"
+        },
+        {
+            "label": "app",
+            "value": "Storm"
+        }
+    ],
+    "services": [
+        {
+            "name": "zookeeper",
+            "description": "Required zookeeper for Apache Storm",
+            "externally_visible": false,
+            "labels": [
+                {
+                    "label": "environment",
+                    "value": "dev"
+                },
+                {
+                    "label": "role",
+                    "value": "backend"
+                }
+            ],
+            "ports": [
+                {
+                    "port": 2181,
+                    "targetPort": "zookeeper"
+                }
+            ],
+            "replicas": 1,
+            "resources": {
+                "icu": 1,
+                "memory": 500,
+                "io": 1000
+            },
+            "containers": [
+                {
+                    "name": "zookeeper",
+                    "description": "Zookeeper container ",
+                    "image_url": "magalix/zookeeper",
+                    "commands": [],
+                    "environment": [],
+                    "ports": [
+                        {
+                            "name": "zookeeper",
+                            "containerPort": 2181
+                        }
+                    ],
+                    "labels": [
+                        {
+                            "label": "environment",
+                            "value": "dev"
+                        },
+                        {
+                            "label": "role",
+                            "value": "backend"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "nimbus",
+            "description": "nimbus worker service",
+            "externally_visible": true,
+            "labels": [
+                {
+                    "label": "environment",
+                    "value": "dev"
+                },
+                {
+                    "label": "role",
+                    "value": "master"
+                }
+            ],
+            "ports": [
+                {
+                    "port": 6627,
+                    "targetPort": "nimbus-server"
+                }
+            ],
+            "resources": {
+                "icu": 1,
+                "memory": 100,
+                "io": 1000
+            },
+            "replicas": 1,
+            "containers": [
+                {
+                    "name": "nimbus",
+                    "description": "nimbus worker container",
+                    "labels": [
+                        {
+                            "label": "environment",
+                            "value": "dev"
+                        },
+                        {
+                            "label": "role",
+                            "value": "nimbus"
+                        }
+                    ],
+                    "image_url": "magalix/storm.nimbus",
+                    "commands": [],
+                    "environment": [],
+                    "ports": [
+                        {
+                            "name": "nimbus-server",
+                            "containerPort": 6627
+                        }
+                    ],
+                    "resources": {
+                        "icu": 1,
+                        "memory": 500,
+                        "io": 1000
+                    }
+                }
+            ]
+        },
+        {
+            "name": "storm-worker",
+            "description": "storm worker service",
+            "externally_visible": false,
+            "labels": [
+                {
+                    "label": "environment",
+                    "value": "dev"
+                },
+                {
+                    "label": "role",
+                    "value": "worker"
+                }
+            ],
+            "ports": [
+                {
+                    "port": 6700,
+                    "containerPort": 6700
+                },
+                {
+                    "port": 6701,
+                    "containerPort": 6701
+                },
+                {
+                    "port": 6702,
+                    "containerPort": 6702
+                },
+                {
+                    "port": 6703,
+                    "containerPort": 6703
+                }
+            ],
+            "resources": {
+                "icu": 1,
+                "memory": 100,
+                "io": 1000
+            },
+            "replicas": 2,
+            "containers": [
+                {
+                    "name": "storm-worker",
+                    "description": "storm worker container",
+                    "labels": [
+                        {
+                            "label": "environment",
+                            "value": "dev"
+                        },
+                        {
+                            "label": "role",
+                            "value": "storm-worker"
+                        }
+                    ],
+                    "image_url": "magalix/storm.worker",
+                    "commands": [],
+                    "environment": [],
+                    "ports": [
+                        {
+                            "port": 6700,
+                            "containerPort": 6700
+                        },
+                        {
+                            "port": 6701,
+                            "containerPort": 6701
+                        },
+                        {
+                            "port": 6702,
+                            "containerPort": 6702
+                        },
+                        {
+                            "port": 6703,
+                            "containerPort": 6703
+                        }
+                    ],
+                    "resources": {
+                        "icu": 1,
+                        "memory": 500,
+                        "io": 1000
+                    }
+                }
+            ]
+        },
+        {
+            "name": "storm-ui",
+            "description": "storm ui service",
+            "externally_visible": true,
+            "labels": [
+                {
+                    "label": "environment",
+                    "value": "dev"
+                },
+                {
+                    "label": "role",
+                    "value": "worker"
+                }
+            ],
+            "ports": [
+                {
+                    "port": 8080,
+                    "targetPort": "storm-ui-server"
+                }
+            ],
+            "resources": {
+                "icu": 1,
+                "memory": 100,
+                "io": 1000
+            },
+            "replicas": 1,
+            "containers": [
+                {
+                    "name": "storm-ui",
+                    "description": "storm ui container",
+                    "labels": [
+                        {
+                            "label": "environment",
+                            "value": "dev"
+                        },
+                        {
+                            "label": "role",
+                            "value": "storm-ui"
+                        }
+                    ],
+                    "image_url": "magalix/storm.ui",
+                    "commands": [
+                        "/start.sh",
+                        "--storm.zookeeper.servers",
+                        "zookeeper",
+                        "--storm.zookeeper.port",
+                        "2181",
+                        "--storm.zookeeper.root",
+                        "/k8s_storm"
+                    ],
+                    "environment": [],
+                    "ports": [
+                        {
+                            "name": "storm-ui-server",
+                            "containerPort": 8080
+                        }
+                    ],
+                    "resources": {
+                        "icu": 1,
+                        "memory": 500,
+                        "io": 1000
+                    }
+                }
+            ]
+        }
+    ]
+}

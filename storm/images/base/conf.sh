@@ -1,0 +1,2 @@
+ZOOKEEPER_SERVICE_HOST="zookeeper"
+NIMBUS_SERVICE_HOST="nimbus"
