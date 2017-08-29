@@ -1,188 +1,165 @@
 {
-    "name": "my-guestbook-go",
-    "description": "The application consists of a web front-end, Redis master for storage, and replicated set of Redis slaves",
-    "target_cloud": {
-        "type": "aws",
-        "region": "us-east",
-        "zone": "us-east-a"
+  "name": "my-guestbook",
+  "description": "The application consists of a web front-end, Redis master for storage, and replicated set of Redis slaves",
+  "target_cloud": {
+    "type": "aws",
+    "region": "us-east",
+    "zone": "us-east-a"
+  },
+  "labels": [{
+      "label": "environment",
+      "value": "dev"
     },
-    "labels": [
+    {
+      "label": "owner",
+      "value": "Mohamed"
+    }
+  ],
+  "services": [{
+      "name": "redis-master",
+      "description": "This service hosts the redis master container",
+      "externally_visible": false,
+      "labels": [{
+          "label": "environment",
+          "value": "dev"
+        },
         {
+          "label": "app",
+          "value": "redis"
+        },
+        {
+          "label": "role",
+          "value": "master"
+        }
+      ],
+      "ports": [{
+        "externally_accessible": false,
+        "port": 6379,
+        "targetPort": "redis-server"
+      }],
+      "replicas": 1,
+      "resources": {
+        "icu": 1,
+        "memory": 0.5,
+        "io": 1000
+      },
+      "containers": [{
+        "name": "redis-master",
+        "description": "Master container of the redis cache ",
+        "image_url": "redis:2.8.23",
+        "commands": [],
+        "ports": [{
+          "name": "redis-server",
+          "containerPort": 6379
+        }],
+        "labels": [{
             "label": "environment",
             "value": "dev"
+          },
+          {
+            "label": "role",
+            "value": "master"
+          }
+        ]
+      }]
+    },
+    {
+      "name": "redis-slave",
+      "description": "This service hosts the redis slave containers",
+      "externally_visible": false,
+      "labels": [{
+          "label": "environment",
+          "value": "dev"
         },
         {
-            "label": "owner",
-            "value": "Mohamed"
+          "label": "app",
+          "value": "redis"
+        },
+        {
+          "label": "role",
+          "value": "slave"
         }
-    ],
-    "services": [
-        {
-            "name": "redis-master",
-            "description": "This service hosts the redis master container",
-            "externally_visible": false,
-            "labels": [
-                {
-                    "label": "environment",
-                    "value": "dev"
-                },
-                {
-                    "label": "app",
-                    "value": "redis"
-                },
-                {
-                    "label": "role",
-                    "value": "master"
-                }
-            ],
-            "ports": [
-                {
-                    "port": 6379,
-                    "targetPort": "redis-server"
-                }
-            ],
-            "replicas": 1,
-            "resources": {
-                "icu": 1,
-                "memory": 500,
-                "io": 1000
-            },
-            "containers": [
-                {
-                    "name": "redis-master",
-                    "description": "Master container of the redis cache ",
-                    "image_url": "redis:2.8.23",
-                    "commands": [],
-                    "ports": [
-                        {
-                            "name": "redis-server",
-                            "containerPort": 6379
-                        }
-                    ],
-                    "labels": [
-                        {
-                            "label": "environment",
-                            "value": "dev"
-                        },
-                        {
-                            "label": "role",
-                            "value": "master"
-                        }
-                    ]
-                }
-            ]
+      ],
+      "ports": [{
+        "externally_accessible": false,
+        "port": 6379,
+        "targetPort": "redis-server"
+      }],
+      "resources": {
+        "icu": 1,
+        "memory": 0.5,
+        "io": 1000
+      },
+      "replicas": 2,
+      "containers": [{
+        "name": "redis-slave",
+        "description": "slave container of the redus application ",
+        "image_url": "kubernetes/redis-slave:v2",
+        "commands": [],
+        "ports": [{
+          "name": "redis-server",
+          "containerPort": 6379
+        }],
+        "labels": [{
+            "label": "environment",
+            "value": "dev"
+          },
+          {
+            "label": "role",
+            "value": "slave"
+          }
+        ]
+      }]
+    },
+    {
+      "name": "guestbook",
+      "description": "guestbook application",
+      "labels": [{
+          "label": "environment",
+          "value": "dev"
         },
         {
-            "name": "redis-slave",
-            "description": "This service hosts the redis slave containers",
-            "externally_visible": false,
-            "labels": [
-                {
-                    "label": "environment",
-                    "value": "dev"
-                },
-                {
-                    "label": "app",
-                    "value": "redis"
-                },
-                {
-                    "label": "role",
-                    "value": "slave"
-                }
-            ],
-            "ports": [
-                {
-                    "port": 6379,
-                    "targetPort": "redis-server"
-                }
-            ],
-            "resources": {
-                "icu": 1,
-                "memory": 500,
-                "io": 1000
-            },
-            "replicas": 2,
-            "containers": [
-                {
-                    "name": "redis-slave",
-                    "description": "slave container of the redus application ",
-                    "image_url": "kubernetes/redis-slave:v2",
-                    "commands": [],
-                    "ports": [
-                        {
-                            "name": "redis-server",
-                            "containerPort": 6379
-                        }
-                    ],
-                    "labels": [
-                        {
-                            "label": "environment",
-                            "value": "dev"
-                        },
-                        {
-                            "label": "role",
-                            "value": "slave"
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            "name": "guestbook",
-            "description": "guestbook application",
-            "externally_visible": true,
-            "labels": [
-                {
-                    "label": "environment",
-                    "value": "dev"
-                },
-                {
-                    "label": "app",
-                    "value": "guestbook"
-                }
-            ],
-            "ports": [
-                {
-                    "port": 3000,
-                    "targetPort": "http-server"
-                }
-            ],
-            "resources": {
-                "icu": 1,
-                "memory": 500,
-                "io": 1000
-            },
-            "replicas": 3,
-            "containers": [
-                {
-                    "name": "guestbook",
-                    "description": "guestbook application written in go!",
-                    "labels": [
-                        {
-                            "label": "environment",
-                            "value": "dev"
-                        },
-                        {
-                            "label": "app",
-                            "value": "guestbook"
-                        }
-                    ],
-                    "replicas": 1,
-                    "image_url": "gcr.io/google_containers/guestbook:v3",
-                    "commands": [],
-                    "ports": [
-                        {
-                            "name": "http-server",
-                            "containerPort": 3000
-                        }
-                    ],
-                    "resources": {
-                        "icu": 1,
-                        "memory": 300,
-                        "io": 1000
-                    }
-                }
-            ]
+          "label": "app",
+          "value": "guestbook"
         }
-    ]
+      ],
+      "ports": [{
+        "externally_accessible": true,
+        "port": 3000,
+        "targetPort": "http-server",
+        "path": "/"
+      }],
+      "resources": {
+        "icu": 1,
+        "memory": 0.5,
+        "io": 1000
+      },
+      "replicas": 3,
+      "containers": [{
+        "name": "guestbook",
+        "description": "guestbook application written in go!",
+        "labels": [{
+            "label": "environment",
+            "value": "dev"
+          },
+          {
+            "label": "app",
+            "value": "guestbook"
+          }
+        ],
+        "replicas": 1,
+        "image_url": "gcr.io/google_containers/guestbook:v3",
+        "commands": [],
+        "ports": [{
+          "name": "http-server",
+          "containerPort": 3000
+        }],
+        "resources": {
+          "icu": 1,
+          "memory": 0.5,
+          "io": 1000
+        }
+      }]
+    }
+  ]
 }
