@@ -1,24 +1,25 @@
 {
-  "name": "my-guestbook",
+  "name": "my-guestbook-with-policy-0",
   "description": "The application consists of a web front-end, Redis master for storage, and replicated set of Redis slaves",
   "target_cloud": {
     "type": "aws",
-    "region": "us-east",
-    "zone": "us-east-a"
+    "region": "us-east-1",
+    "zone": "us-east-1a"
   },
   "labels": [{
       "label": "environment",
       "value": "dev"
-    },
-    {
-      "label": "owner",
-      "value": "Mohamed"
     }
   ],
+  "kpi_policies": [{
+    "name": "basic-policy",
+    "definition": {
+      "max_latency": "800ms"
+    }
+  }],
   "services": [{
       "name": "redis-master",
       "description": "This service hosts the redis master container",
-      "externally_visible": false,
       "labels": [{
           "label": "environment",
           "value": "dev"
@@ -35,7 +36,7 @@
       "ports": [{
         "externally_accessible": false,
         "port": 6379,
-        "targetPort": "redis-server"
+        "target_port": "port-master"
       }],
       "replicas": 1,
       "resources": {
@@ -49,8 +50,8 @@
         "image_url": "redis:2.8.23",
         "commands": [],
         "ports": [{
-          "name": "redis-server",
-          "containerPort": 6379
+          "name": "port-master",
+          "container_port": 6379
         }],
         "labels": [{
             "label": "environment",
@@ -66,7 +67,6 @@
     {
       "name": "redis-slave",
       "description": "This service hosts the redis slave containers",
-      "externally_visible": false,
       "labels": [{
           "label": "environment",
           "value": "dev"
@@ -83,7 +83,7 @@
       "ports": [{
         "externally_accessible": false,
         "port": 6379,
-        "targetPort": "redis-server"
+        "target_port": "port-slave"
       }],
       "resources": {
         "icu": 1,
@@ -97,8 +97,8 @@
         "image_url": "kubernetes/redis-slave:v2",
         "commands": [],
         "ports": [{
-          "name": "redis-server",
-          "containerPort": 6379
+          "name": "port-slave",
+          "container_port": 6379
         }],
         "labels": [{
             "label": "environment",
@@ -125,9 +125,9 @@
       ],
       "ports": [{
         "externally_accessible": true,
-        "port": 3000,
-        "targetPort": "http-server",
-        "path": "/"
+        "port": 8001,
+        "target_port": "http-server",
+        "kpi_policy": "basic-policy"
       }],
       "resources": {
         "icu": 1,
@@ -137,7 +137,7 @@
       "replicas": 3,
       "containers": [{
         "name": "guestbook",
-        "description": "guestbook application written in go!",
+        "description": "guestbook application written in go",
         "labels": [{
             "label": "environment",
             "value": "dev"
@@ -152,7 +152,7 @@
         "commands": [],
         "ports": [{
           "name": "http-server",
-          "containerPort": 3000
+          "container_port": 3000
         }],
         "resources": {
           "icu": 1,
