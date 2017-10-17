@@ -34,7 +34,7 @@
         }
       ],
       "ports": [{
-        "externally_accessible": false,
+        "is_public": false,
         "port": 6379,
         "target_port": "port-master"
       }],
@@ -81,7 +81,7 @@
         }
       ],
       "ports": [{
-        "externally_accessible": false,
+        "is_public": false,
         "port": 6379,
         "target_port": "port-slave"
       }],
@@ -124,7 +124,7 @@
         }
       ],
       "ports": [{
-        "externally_accessible": true,
+        "is_public": true,
         "port": 8001,
         "target_port": "http-server",
         "kpi_policy": "basic-policy"
