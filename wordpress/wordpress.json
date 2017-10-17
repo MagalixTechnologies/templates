@@ -45,7 +45,6 @@
       ],
       "ports": [{
         "port": 3306,
-        "externally_accessible": false,
         "target_port": "mysql"
       }],
       "replicas": 1,
@@ -97,7 +96,7 @@
       "ports": [{
         "port": 80,
         "target_port": "http-server",
-        "externally_accessible": true
+        "is_public": true
       }],
       "resources": {
         "icu": 1,
