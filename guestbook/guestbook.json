@@ -7,10 +7,9 @@
     "zone": "us-east-1a"
   },
   "labels": [{
-      "label": "environment",
-      "value": "dev"
-    }
-  ],
+    "label": "environment",
+    "value": "dev"
+  }],
   "kpi_policies": [{
     "name": "basic-policy",
     "definition": {
@@ -38,11 +37,11 @@
         "port": 6379,
         "target_port": "port-master"
       }],
-      "replicas": 1,
       "resources": {
-        "icu": 1,
-        "memory": 0.5,
-        "io": 1000
+        "replicas": 1,
+        "vcpu": 1,
+        "memory": 512,
+        "io": 10
       },
       "containers": [{
         "name": "redis-master",
@@ -86,11 +85,11 @@
         "target_port": "port-slave"
       }],
       "resources": {
-        "icu": 1,
-        "memory": 0.5,
-        "io": 1000
+        "replicas": 2,
+        "vcpu": 1,
+        "memory": 512,
+        "io": 10
       },
-      "replicas": 2,
       "containers": [{
         "name": "redis-slave",
         "description": "slave container of the redus application ",
@@ -130,11 +129,11 @@
         "kpi_policy": "basic-policy"
       }],
       "resources": {
-        "icu": 1,
-        "memory": 0.5,
-        "io": 1000
+        "replicas": 3,
+        "vcpu": 1,
+        "memory": 512,
+        "io": 10
       },
-      "replicas": 3,
       "containers": [{
         "name": "guestbook",
         "description": "guestbook application written in go",
@@ -147,18 +146,12 @@
             "value": "guestbook"
           }
         ],
-        "replicas": 1,
         "image_url": "gcr.io/google_containers/guestbook:v3",
         "commands": [],
         "ports": [{
           "name": "http-server",
           "container_port": 3000
-        }],
-        "resources": {
-          "icu": 1,
-          "memory": 0.5,
-          "io": 1000
-        }
+        }]
       }]
     }
   ]
