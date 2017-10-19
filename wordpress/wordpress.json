@@ -45,13 +45,14 @@
       ],
       "ports": [{
         "port": 3306,
-        "target_port": "mysql"
+        "target_port": "mysql",
+        "is_public": false
       }],
-      "replicas": 1,
       "resources": {
+        "replicas": 1,
         "icu": 1,
-        "memory": 1,
-        "io": 1000
+        "memory": 512,
+        "io": 10
       },
       "containers": [{
         "name": "mysql",
@@ -64,7 +65,8 @@
         }],
         "ports": [{
           "name": "mysql",
-          "container_port": 3306
+          "container_port": 3306,
+          "is_public": false
         }],
         "labels": [{
             "label": "environment",
@@ -99,11 +101,11 @@
         "is_public": true
       }],
       "resources": {
+        "replicas": 2,
         "icu": 1,
-        "memory": 1,
-        "io": 1000
+        "memory": 512,
+        "io": 10
       },
-      "replicas": 2,
       "containers": [{
         "name": "wordpress",
         "description": "wordpress container, includes apache",
@@ -131,11 +133,6 @@
           "name": "http-server",
           "container_port": 80
         }],
-        "resources": {
-          "icu": 1,
-          "memory": 1,
-          "io": 1000
-        },
         "volume_mounts": [{
           "name": "wordpress-persistent-storage",
           "mount_path": "/var/www/html"
