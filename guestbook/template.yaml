@@ -1,6 +1,0 @@
-name: "guestbook"
-description: "this is a guestbook template"
-categories:
-  - "category-name"
-type: application
-version: 0.1
