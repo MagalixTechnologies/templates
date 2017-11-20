@@ -1,0 +1,138 @@
+{
+  "description": "The application consists of a web front-end, Redis master for storage, and replicated set of Redis slaves",
+  "kpi_policies": [{
+    "definition": {
+      "max_latency": "800ms"
+    },
+    "name": "guestbook"
+  }],
+  "labels": [{
+    "label": "environment",
+    "value": "dev"
+  }],
+  "name": "my-guestbook-with-policy-egwgsrth",
+  "services": [{
+    "containers": [{
+      "description": "Master container of the redis cache ",
+      "image_url": "redis:2.8.23",
+      "labels": [{
+        "label": "environment",
+        "value": "dev"
+      }, {
+        "label": "role",
+        "value": "master"
+      }],
+      "name": "redis-master",
+      "ports": [{
+        "container_port": 6379,
+        "name": "port-master"
+      }]
+    }],
+    "description": "This service hosts the redis master container",
+    "labels": [{
+      "label": "environment",
+      "value": "dev"
+    }, {
+      "label": "app",
+      "value": "redis"
+    }, {
+      "label": "role",
+      "value": "master"
+    }],
+    "name": "redis-master",
+    "ports": [{
+      "is_public": false,
+      "port": 6379,
+      "target_port": "port-master"
+    }],
+    "resources": {
+      "io": 10,
+      "memory": 512,
+      "replicas": 1,
+      "vcpu": 1
+    }
+  }, {
+    "containers": [{
+      "description": "slave container of the redus application ",
+      "image_url": "kubernetes/redis-slave:v2",
+      "labels": [{
+        "label": "environment",
+        "value": "dev"
+      }, {
+        "label": "role",
+        "value": "slave"
+      }],
+      "name": "redis-slave",
+      "ports": [{
+        "container_port": 6379,
+        "name": "port-slave"
+      }]
+    }],
+    "description": "This service hosts the redis slave containers",
+    "labels": [{
+      "label": "environment",
+      "value": "dev"
+    }, {
+      "label": "app",
+      "value": "redis"
+    }, {
+      "label": "role",
+      "value": "slave"
+    }],
+    "name": "redis-slave",
+    "ports": [{
+      "is_public": false,
+      "port": 6379,
+      "target_port": "port-slave"
+    }],
+    "resources": {
+      "io": 10,
+      "memory": 512,
+      "replicas": 2,
+      "vcpu": 1
+    }
+  }, {
+    "containers": [{
+      "description": "guestbook application written in go",
+      "image_url": "gcr.io/google_containers/guestbook:v3",
+      "labels": [{
+        "label": "environment",
+        "value": "dev"
+      }, {
+        "label": "app",
+        "value": "guestbook"
+      }],
+      "name": "guestbook",
+      "ports": [{
+        "container_port": 3000,
+        "name": "http-server"
+      }]
+    }],
+    "description": "guestbook application",
+    "labels": [{
+      "label": "environment",
+      "value": "dev"
+    }, {
+      "label": "app",
+      "value": "guestbook"
+    }],
+    "name": "guestbook",
+    "ports": [{
+      "is_public": true,
+      "path": "/",
+      "port": 8001,
+      "target_port": "http-server"
+    }],
+    "resources": {
+      "io": 10,
+      "memory": 512,
+      "replicas": 3,
+      "vcpu": 1
+    }
+  }],
+  "target_cloud": {
+    "region": "us-east-1",
+    "type": "aws",
+    "zone": "us-east-1a"
+  }
+}
