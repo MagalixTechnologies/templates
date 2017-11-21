@@ -12,7 +12,7 @@ A new teplate needs to contain the following files:
       name: "guestbook"
       description: "The application consists of a web front-end, Redis master for storage, and replicated set of Redis slaves."
       categories:
-        - "category-name"
+        - "demo"
       type: application
       version: 0.1
       ```
