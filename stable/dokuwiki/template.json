@@ -66,12 +66,6 @@
       "path": "/",
       "port": 80,
       "target_port": "http"
-    }, {
-      "is_public": true,
-      "name": "https",
-      "path": "/",
-      "port": 443,
-      "target_port": "https"
     }],
     "resources": {
       "io": 10,
@@ -96,6 +90,6 @@
     "name": "apache-data",
     "persistent": true,
     "recycle_policy": "recycle",
-    "size": 1
+    "size": 4
   }]
 }
