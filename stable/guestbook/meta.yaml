@@ -1,5 +1,5 @@
 name: "guestbook"
-description: "this is a guestbook template"
+description: "The application consists of a web front-end, Redis master for storage, and replicated set of Redis slaves."
 categories:
   - "category-name"
 type: application
