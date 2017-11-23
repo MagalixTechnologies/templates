@@ -1,0 +1,165 @@
+{
+  "name": "rocketchat",
+  "description": "Prepare to take off with the ultimate chat platform, experience the next level of team communications",
+  "services": [
+    {
+      "name": "coy-scorpion-mongodb",
+      "containers": [
+        {
+          "name": "coy-scorpion-mongodb",
+          "image_url": "bitnami/mongodb:3.4.7-r0",
+          "ports": [
+            {
+              "name": "mongodb",
+              "container_port": 27017
+            }
+          ],
+          "volume_mounts": [
+            {
+              "name": "data",
+              "mount_path": "/bitnami/mongodb"
+            }
+          ]
+        }
+      ],
+      "ports": [
+        {
+          "name": "mongodb",
+          "is_public": true,
+          "port": 27017,
+          "target_port": "mongodb"
+        }
+      ],
+      "resources": {
+        "vcpu": 1,
+        "io": 10,
+        "memory": 512,
+        "replicas": 1
+      }
+    },
+    {
+      "name": "coy-scorpion-rocketchat",
+      "containers": [
+        {
+          "name": "coy-scorpion-rocketchat",
+          "environment": [
+            {
+              "name": "DEPLOY_PLATFORM",
+              "value": "helm-chart"
+            },
+            {
+              "name": "MONGO_URL",
+              "value": "mongodb://coy-scorpion-mongodb:27017/rocketchat"
+            },
+            {
+              "name": "MAIL_URL",
+              "value": "c210cDovLyUhcyg8bmlsPik6JSFzKDxuaWw+KUAlIXMoPG5pbD4pOiUhcyg8bmlsPik="
+            },
+            {
+              "name": "Jitsi_Domain",
+              "value": "meet.jit.si"
+            },
+            {
+              "name": "Jitsi_Enable_Channels",
+              "value": "false"
+            },
+            {
+              "name": "Jitsi_Enabled",
+              "value": "false"
+            },
+            {
+              "name": "Jitsi_Open_New_Window",
+              "value": "false"
+            },
+            {
+              "name": "Jitsi_URL_Room_Prefix",
+              "value": "RocketChat"
+            },
+            {
+              "name": "WebRTC_Enable_Channel",
+              "value": "false"
+            },
+            {
+              "name": "WebRTC_Enable_Direct",
+              "value": "false"
+            },
+            {
+              "name": "WebRTC_Enable_Private",
+              "value": "false"
+            }
+          ],
+          "image_url": "rocket.chat:0.56",
+          "ports": [
+            {
+              "name": "http",
+              "container_port": 3000
+            }
+          ],
+          "volume_mounts": [
+            {
+              "name": "rocket-data",
+              "mount_path": "/app/uploads"
+            }
+          ]
+        }
+      ],
+      "ports": [
+        {
+          "name": "http",
+          "is_public": true,
+          "port": 3000,
+          "target_port": "http"
+        }
+      ],
+      "resources": {
+        "vcpu": 1,
+        "io": 10,
+        "memory": 512,
+        "replicas": 1
+      }
+    }
+  ],
+  "target_cloud": {
+    "region": "us-east-1",
+    "type": "aws",
+    "zone": "us-east-1a"
+  },
+  "volumes": [
+    {
+      "name": "data",
+      "labels": [
+        {
+          "label": "dummy-val",
+          "value": "dummy-val"
+        }
+      ],
+      "access_mode": "ReadWriteOnce",
+      "persistent": true,
+      "size": 8
+    },
+    {
+      "name": "rocket-data",
+      "labels": [
+        {
+          "label": "app",
+          "value": "rocketchat"
+        },
+        {
+          "label": "chart",
+          "value": "rocketchat-0.1.0"
+        },
+        {
+          "label": "heritage",
+          "value": "Tiller"
+        },
+        {
+          "label": "release",
+          "value": "coy-scorpion"
+        }
+      ],
+      "access_mode": "ReadWriteOnce",
+      "persistent": true,
+      "size": 8
+    }
+  ]
+}
