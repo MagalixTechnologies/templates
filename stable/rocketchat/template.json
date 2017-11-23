@@ -129,7 +129,7 @@
       "name": "data",
       "labels": [
         {
-          "label": "dummy-val",
+          "label": "mgx-lbl",
           "value": "dummy-val"
         }
       ],
