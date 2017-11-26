@@ -1,0 +1,78 @@
+{
+  "name": "redis",
+  "description": "Open source, advanced key-value store. It is often referred to as a data structure server since keys can contain strings, hashes, lists, sets and sorted sets.",
+  "services": [
+    {
+      "name": "erstwhile-arachnid-redis",
+      "containers": [
+        {
+          "name": "erstwhile-arachnid-redis",
+          "environment": [
+            {
+              "name": "REDIS_PASSWORD",
+              "value": "cEoxWDBlMHBRTQ=="
+            }
+          ],
+          "image_url": "bitnami/redis:4.0.2-r1",
+          "ports": [
+            {
+              "name": "redis",
+              "container_port": 6379
+            }
+          ],
+          "volume_mounts": [
+            {
+              "name": "redis-data",
+              "mount_path": "/bitnami"
+            }
+          ]
+        }
+      ],
+      "ports": [
+        {
+          "name": "redis",
+          "is_public": true,
+          "port": 6379,
+          "target_port": "redis"
+        }
+      ],
+      "resources": {
+        "vcpu": 1,
+        "io": 10,
+        "memory": 512,
+        "replicas": 1
+      }
+    }
+  ],
+  "target_cloud": {
+    "region": "us-east-1",
+    "type": "aws",
+    "zone": "us-east-1a"
+  },
+  "volumes": [
+    {
+      "name": "redis-data",
+      "labels": [
+        {
+          "label": "chart",
+          "value": "redis-1.0.4"
+        },
+        {
+          "label": "heritage",
+          "value": "Tiller"
+        },
+        {
+          "label": "release",
+          "value": "erstwhile-arachnid"
+        },
+        {
+          "label": "app",
+          "value": "erstwhile-arachnid-redis"
+        }
+      ],
+      "access_mode": "ReadWriteOnce",
+      "persistent": true,
+      "size": 8
+    }
+  ]
+}
