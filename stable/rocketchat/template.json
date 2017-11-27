@@ -7,7 +7,7 @@
       "containers": [
         {
           "name": "coy-scorpion-mongodb",
-          "image_url": "mongodb",
+          "image_url": "mongo",
           "ports": [
             {
               "name": "mongodb",
