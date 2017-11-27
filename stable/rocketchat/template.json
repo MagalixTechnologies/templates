@@ -7,7 +7,7 @@
       "containers": [
         {
           "name": "coy-scorpion-mongodb",
-          "image_url": "bitnami/mongodb:3.4.7-r0",
+          "image_url": "mongodb",
           "ports": [
             {
               "name": "mongodb",
