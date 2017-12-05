@@ -72,6 +72,7 @@
       ],
       "access_mode": "ReadWriteOnce",
       "persistent": true,
+      "recycle_policy": "recycle",
       "size": 8
     }
   ]
