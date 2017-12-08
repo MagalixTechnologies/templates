@@ -1,0 +1,6 @@
+- name: demo
+  description: "Applications to demostrate Magalix capabilities"
+  icon_url: "https://raw.githubusercontent.com/MagalixTechnologies/manifests/master/stable/dokuwiki/icon.png"
+- name: data-science
+  description: "Data science applications"
+  icon_url: "https://raw.githubusercontent.com/MagalixTechnologies/manifests/master/stable/dokuwiki/icon.png"
