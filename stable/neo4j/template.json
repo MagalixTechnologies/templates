@@ -56,7 +56,7 @@
 	}],
 	"volumes": [{
 		"name": "neo4j-data",
-		"type": "persistent",
+		"persistent": true,
 		"size": 4,
 		"labels": [{
 			"label": "name",
@@ -65,7 +65,7 @@
 		"access_mode": "ReadWriteOnce"
 	}, {
 		"name": "neo4j-conf",
-		"type": "persistent",
+		"persistent": true,
 		"size": 4,
 		"labels": [{
 			"label": "name",
@@ -74,7 +74,7 @@
 		"access_mode": "ReadWriteOnce"
 	}, {
 		"name": "neo4j-import",
-		"type": "persistent",
+		"persistent": true,
 		"size": 4,
 		"labels": [{
 			"label": "name",

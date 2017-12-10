@@ -41,7 +41,7 @@
 	}],
 	"volumes": [{
 		"name": "datasets",
-		"type": "persistent",
+		"persistent": true,
 		"size": 4,
 		"labels": [{
 			"label": "name",

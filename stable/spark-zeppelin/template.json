@@ -25,7 +25,7 @@
 		}],
 		"resources": {
 			"vcpu": 1,
-			"memory": 512,
+			"memory": 1024,
 			"io": 10,
 			"replicas": 1
 		},
@@ -57,7 +57,7 @@
 		}],
 		"resources": {
 			"vcpu": 1,
-			"memory": 512,
+			"memory": 1024,
 			"io": 10,
 			"replicas": 3
 		},
@@ -72,7 +72,7 @@
 		"containers": [{
 			"name": "spark-master",
 			"image_url": "gcr.io/google_containers/spark:1.5.1_v3",
-			"commands": ["/bin/sh", "-c", "echo $(hostname -i) spark-master >> /etc/hosts; /opt/spark/bin/spark-class org.apache.spark.deploy.master.Master --ip spark-master --port 7077 --webui-port 8080"],
+			"commands": ["/bin/sh", "-c", "echo  spark-master > /etc/hostname; echo $(hostname -i) spark-master >> /etc/hosts; /opt/spark/bin/spark-class org.apache.spark.deploy.master.Master --ip spark-master --port 7077 --webui-port 8080"],
 			"ports": [{
 				"name": "p7077",
 				"container_port": 7077
@@ -84,17 +84,20 @@
 			"environment": [{
 				"name": "SPARK_DAEMON_MEMORY",
 				"value": "1g"
+			}, {
+				"name": "HOSTNAME",
+				"value": "spark-master"
 			}],
 			"volume_mounts": []
 		}],
 		"resources": {
 			"vcpu": 1,
-			"memory": 512,
+			"memory": 1024,
 			"io": 10,
 			"replicas": 1
 		},
 		"ports": [{
-			"is_public": true,
+			"is_public": false,
 			"target_port": "p7077",
 			"port": 7077
 		}, {
