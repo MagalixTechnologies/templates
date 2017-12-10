@@ -1,0 +1,40 @@
+{
+	"name": "tensorflow-jupyter",
+	"description": "tensorflow-jupyter notebook",
+	"target_cloud": {
+		"type": "aws",
+		"region": "us-east-1",
+		"zone": "us-east-1a"
+	},
+	"labels": [],
+	"services": [{
+		"name": "tenserflow",
+		"description": "",
+		"labels": [],
+		"containers": [{
+			"name": "tenserflow",
+			"image_url": "gcr.io/tensorflow/tensorflow",
+			"commands": [],
+			"ports": [{
+				"name": "p8888",
+				"container_port": 8888
+			}],
+			"labels": [],
+			"environment": [],
+			"volume_mounts": []
+		}],
+		"resources": {
+			"vcpu": 1,
+			"memory": 1024,
+			"io": 10,
+			"replicas": 1
+		},
+		"ports": [{
+			"is_public": true,
+			"target_port": "p8888",
+			"port": 8888
+		}]
+	}],
+	"volumes": [],
+	"kpi_policies": []
+}
