@@ -1,6 +1,6 @@
 name: "guestbook"
 description: "The application consists of a web front-end, Redis master for storage, and replicated set of Redis slaves."
 categories:
-  - "demo"
+  - "Demo Apps"
 type: application
 version: 0.1
