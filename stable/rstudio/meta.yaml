@@ -1,6 +1,6 @@
 name: "rstudio"
 description: "RStudio is a free and open-source integrated development environment (IDE) for R, a programming language for statistical computing and graphics."
 categories:
-  - "data science"
+  - "Data Science"
 type: application
 version: 0.1
