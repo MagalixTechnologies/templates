@@ -8,11 +8,11 @@
 	},
 	"labels": [],
 	"services": [{
-		"name": "tenserflow",
+		"name": "tensorflow",
 		"description": "",
 		"labels": [],
 		"containers": [{
-			"name": "tenserflow",
+			"name": "tensorflow",
 			"image_url": "gcr.io/tensorflow/tensorflow",
 			"commands": [],
 			"ports": [{
