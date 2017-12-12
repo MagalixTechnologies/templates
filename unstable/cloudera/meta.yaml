@@ -1,0 +1,6 @@
+name: "cloudera"
+description: "Cloudera's open-source Apache Hadoop distribution, CDH (Cloudera Distribution Including Apache Hadoop), targets enterprise-class deployments of that technology."
+categories:
+  - "data science"
+type: application
+version: 0.1

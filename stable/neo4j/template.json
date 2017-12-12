@@ -1,0 +1,86 @@
+{
+	"name": "neo4j",
+	"description": "Neo4j The graph database platform powering todays mission-critical enterprise applications, including artificial intelligence, fraud detection and recommendations.",
+	"target_cloud": {
+		"type": "aws",
+		"region": "us-east-1",
+		"zone": "us-east-1a"
+	},
+	"labels": [],
+	"services": [{
+		"name": "neo4j",
+		"description": "Neo4j The graph database platform powering todays mission-critical enterprise applications, including artificial intelligence, fraud detection and recommendations.",
+		"labels": [],
+		"containers": [{
+			"name": "neo4j",
+			"image_url": "btibert3/neo4j-apoc-jdbc",
+			"commands": [],
+			"ports": [{
+				"name": "http",
+				"container_port": 7474
+			}, {
+				"name": "bolt",
+				"container_port": 7687
+			}],
+			"labels": [],
+			"environment": [{
+				"name": "NEO4J_AUTH",
+				"value": "none"
+			}],
+			"volume_mounts": [{
+				"name": "neo4j-data",
+				"mount_path": "/data"
+			}, {
+				"name": "neo4j-conf",
+				"mount_path": "/conf/"
+			}, {
+				"name": "neo4j-import",
+				"mount_path": "/var/lib/neo4j/import"
+			}]
+		}],
+		"resources": {
+			"vcpu": 1,
+			"memory": 1024,
+			"io": 10,
+			"replicas": 1
+		},
+		"ports": [{
+			"is_public": true,
+			"target_port": "http",
+			"port": 7474
+		}, {
+			"is_public": true,
+			"target_port": "bolt",
+			"port": 7687
+		}]
+	}],
+	"volumes": [{
+		"name": "neo4j-data",
+		"persistent": true,
+		"size": 4,
+		"labels": [{
+			"label": "name",
+			"value": "data"
+		}],
+		"access_mode": "ReadWriteOnce"
+	}, {
+		"name": "neo4j-conf",
+		"persistent": true,
+		"size": 4,
+		"labels": [{
+			"label": "name",
+			"value": "conf"
+		}],
+		"access_mode": "ReadWriteOnce"
+	}, {
+		"name": "neo4j-import",
+		"persistent": true,
+		"size": 4,
+		"labels": [{
+			"label": "name",
+			"value": "import"
+		}],
+		"access_mode": "ReadWriteOnce"
+	}],
+	"kpi_policies": []
+}

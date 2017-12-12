@@ -1,0 +1,6 @@
+name: "neo4j"
+description: "Neo4j: The graph database platform powering today's mission-critical enterprise applications, including artificial intelligence, fraud detection and recommendations."
+categories:
+  - "data-science"
+type: application
+version: 0.1

@@ -1,0 +1,53 @@
+{
+	"name": "rstudio",
+	"description": "RStudio is a free and open-source integrated development environment (IDE) for R, a programming language for statistical computing and graphics.",
+	"target_cloud": {
+		"type": "aws",
+		"region": "us-east-1",
+		"zone": "us-east-1a"
+	},
+	"labels": [],
+	"services": [{
+		"name": "rstudio",
+		"description": "",
+		"labels": [],
+		"containers": [{
+			"name": "rstudio",
+			"description": "RStudio is a free and open-source integrated development environment (IDE) for R, a programming language for statistical computing and graphics.",
+			"image_url": "btibert3/r-addons",
+			"commands": [],
+			"ports": [{
+				"name": "port1",
+				"container_port": 8787
+			}],
+			"labels": [],
+			"environment": [],
+			"volume_mounts": [{
+				"name": "datasets",
+				"mount_path": "/datasets"
+			}]
+		}],
+		"resources": {
+			"vcpu": 1,
+			"memory": 1024,
+			"io": 10,
+			"replicas": 1
+		},
+		"ports": [{
+			"is_public": true,
+			"target_port": "port1",
+			"port": 8787
+		}]
+	}],
+	"volumes": [{
+		"name": "datasets",
+		"persistent": true,
+		"size": 4,
+		"labels": [{
+			"label": "name",
+			"value": "dataset"
+		}],
+		"access_mode": "ReadWriteOnce"
+	}],
+	"kpi_policies": []
+}
