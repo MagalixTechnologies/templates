@@ -58,6 +58,7 @@
 		"name": "neo4j-data",
 		"persistent": true,
 		"size": 4,
+		"recycle_policy": "recycle",
 		"labels": [{
 			"label": "name",
 			"value": "data"
@@ -67,6 +68,7 @@
 		"name": "neo4j-conf",
 		"persistent": true,
 		"size": 4,
+		"recycle_policy": "recycle",
 		"labels": [{
 			"label": "name",
 			"value": "conf"
@@ -76,6 +78,7 @@
 		"name": "neo4j-import",
 		"persistent": true,
 		"size": 4,
+		"recycle_policy": "recycle",
 		"labels": [{
 			"label": "name",
 			"value": "import"
