@@ -36,6 +36,7 @@ Here is an example category:
 - `name`:
     - This is what you need to put in `categories` in the templates.
     - is required
+    - must be unique
     - must satisfy this regexp: `^[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?(\.[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?)*$` (no spaces, ...)
     - length: 1-256 chars
 - `display_name`:
