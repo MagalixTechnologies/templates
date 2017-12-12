@@ -37,7 +37,7 @@ Here is an example category:
     - This is what you need to put in `categories` in the templates.
     - is required
     - must be unique
-    - must satisfy this regexp: `^[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?(\.[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?)*$` (no spaces, ...)
+    - must satisfy this regexp: `^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$` (no spaces, ...)
     - length: 1-256 chars
 - `display_name`:
     - This is the name that will be used for listing the category in the frontend.
