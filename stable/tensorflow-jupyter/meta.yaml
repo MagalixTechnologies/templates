@@ -1,6 +1,6 @@
 name: "tensorflow-jupyter"
 description: "Tensorflow-Jupyter Notebook."
 categories:
-  - "Data Science"
+  - "data-science"
 type: application
 version: 0.1

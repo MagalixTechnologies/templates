@@ -17,7 +17,9 @@ and language specific code, such as the *IPython kernel for Python*.
 You can install tensorflow-jupyter-notebook on Magalix by few simple steps:
 1- Create new app
 2- Select tensorflow-jupyter template from the data science templates
-3- Since access to the Jupyter notebook server means access to running arbitrary code, it is important to restrict access to the notebook server. For this reason, notebook introduces token-based authentication that is on by default.
+3- You can now get the running application URL from the console, by clicking Endpoints 
+![Application Endpoints](docs/resources/mgx_endpoint.png "Application Endpoints")
+4- Since access to the Jupyter notebook server means access to running arbitrary code, it is important to restrict access to the notebook server. For this reason, notebook introduces token-based authentication that is on by default.
 When token authentication is enabled, the notebook uses a token to authenticate requests.
 This token can be provided to login to the notebook server in three ways:
 

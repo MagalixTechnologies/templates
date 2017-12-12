@@ -1,6 +1,6 @@
 name: "spark-zeppelin"
 description: "Fast and general-purpose cluster computing system."
 categories:
-  - "Data Science"
+  - "data-science"
 type: application
 version: 0.1
