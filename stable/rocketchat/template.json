@@ -24,10 +24,9 @@
       ],
       "ports": [
         {
-          "name": "mongodb",
-          "is_public": true,
-          "port": 27017,
-          "target_port": "mongodb"
+          "is_public": false,
+		  "target_port": "mongodb",
+	      "port": 27017
         }
       ],
       "resources": {

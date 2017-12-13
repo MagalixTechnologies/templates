@@ -47,7 +47,7 @@
 		"ports": [{
 			"is_public": true,
 			"target_port": "http",
-			"port": 7474
+			"port": 80
 		}, {
 			"is_public": true,
 			"target_port": "bolt",
