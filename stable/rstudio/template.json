@@ -43,6 +43,7 @@
 		"name": "datasets",
 		"persistent": true,
 		"size": 4,
+		"recycle_policy": "recycle",
 		"labels": [{
 			"label": "name",
 			"value": "dataset"
