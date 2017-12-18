@@ -6,7 +6,3 @@
   display_name: "Data Science"
   description: "Data science and machine learning applications and services"
   icon_url: "https://raw.githubusercontent.com/MagalixTechnologies/templates/master/category_icons/data-science.png"
-- name: get-started
-  display_name: "Get Started"
-  description: "Simple applications to show case core Magalix features"
-  icon_url: "https://raw.githubusercontent.com/MagalixTechnologies/templates/master/category_icons/magalix-logo.png"

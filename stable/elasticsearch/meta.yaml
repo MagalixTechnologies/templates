@@ -1,0 +1,6 @@
+name: "elasticsearch"
+description: "Elasticsearch (6.1.0) cluster on top of Magalix."
+categories:
+  - "demo"
+type: application
+version: 0.1
