@@ -1,4 +1,5 @@
 # elasticsearch-ELK stack
+
 **elasticsearch** is an open source distributed document store and search engine that stores and retrieves data structures in near real-time.
 
 Elasticsearch represents data in the form of structured JSON documents, and makes full-text search accessible via RESTful API and web clients for languages like PHP, Python, and Ruby. It’s also elastic in the sense that it’s easy to scale horizontally—simply add more nodes to distribute the load. Today, many companies, including Wikipedia, eBay, GitHub, and Datadog, use it to store, search, and analyze large amounts of data on the fly.
@@ -17,6 +18,7 @@ This application will manage the following:
 
 
 ## Installation
+
 You can install ELK stack on Magalix through few simple steps:
 
 1- Create new app
@@ -34,15 +36,27 @@ Elasticsearch has the ability to store large quantities of semi-structured (JSON
 ![ELK](../../docs/resources/elasticsearch.png "ELK")
 
 
-### Twitter Stream API
-In order to access the Twitter Streaming API, you need to register an application at http://apps.twitter.com. Once created, you should be redirected to your app’s page, where you can get the consumer key and consumer secret and create an access token under the “Keys and Access Tokens” tab. These values will be used as part of the configuration for all the sample configurations to follow.
-The API allows two types of subscriptions. Either subscribe to specific keywords or to a user timeline (similar to what you see as a twitter user).
+### Connecting to Twitter
+
+1- Register an application at http://apps.twitter.com
+
+2- After creating you application you will be redirected to your application-page
+
+3- You will be able to collect the required keys : 
+
+- consumer key 
+
+- consumer secret 
+
+4- Click "Keys and Access Tokens" tab, and then create an access token.
+
+5- These values are required to be filled in the Magalix app configuration section for logstash
 
 ### logstash
 
-We'll start with logstash as this is probably the easiest one to configure and seems to be the recommended approach for integrating sources with elasticsearch in recent versions. At the time of writing this post, logstash only supported streaming based on keywords which meant it was not suitable for my needs but it's still a very useful option to cover.
+We will configure logstash to connect to Twitter as logstash-input, and Elasticsearch as logstash-output, based on the configured keywords, in Magalix configuration.
 
-To configure logstash we need to provide input, output and filter elements. For our example we will only specify input (twitter) and output (elasticsearch) elements as we will be storing the full twitter message. Using your favourite text editor, create a file called twitter_logstash.conf and copy the below text. Update the consumer_key, consumer_secret, oath_token and oath_token_secret values with the values from your Twitter Stream App created earlier.
+This configuration is being saved during the app creation in the Magalix commands using echo command. 
 
 ```
 input {
@@ -62,9 +76,7 @@ input {
  }
 ```
 
-This configuration is being saved during the app creation in the Magalix commands using echo command. 
-
-The parameters above are bein passed using the env-vars in Magalix console
+The parameters above are being passed using the env-vars in Magalix console
 
 ### Configuration
 
@@ -135,18 +147,14 @@ You should see something similar to the following
 
 ## Visualizing
 
-Once you have narrowed the available down to the information that interests you, the next step is to create a graphical depiction of the data so that you can identify trends over time.
-Kibana will be available through service kibana, and one will be able to access it from within the cluster or proxy it through the Kubernetes API Server, as follows:
+After configuring the desired twitter-keywords, and configure logstash to connect to both Twitter and Elasticsearch, you may need to create a graphical depiction of the data so that you can identify trends over time.
+
+You will be able to do this using Kibana, but accessing the following link:
 
 ```
 http://<KIBANA_END_POINT>/api/v1/proxy/namespaces/default/services/kibana/proxy
 ```
 
-The first time you visit the Kibana URL you will be asked to configure your view of the ingested logs. Select the option for time series values and select @timestamp.
+The first time you visit the Kibana URL you will be asked to configure your index. Select the rquired index and select the option for time series values and select @timestamp.
 
 On the following page, select the Discover tab and you should see the ingested logs. You can set the refresh interval to 5 seconds to have the logs regularly refreshed.
-
-
-
-
-
