@@ -172,19 +172,19 @@
 			"labels": [],
 			"environment": [{
 				"name": "TWITTER_CONSUMER_KEY",
-				"value": "lAYjJj4bRoi4O70ZR9lwyw17O"
+				"value": "CONSUMER_KEY_GOES_HERE"
 			}, {
 				"name": "TWITTER_CONSUMER_SECRET",
-				"value": "SmFIOjw2a7v0hI9uQkOAhzNfcdmN0rSuShcLcqe7CZ2FHxQEJS"
+				"value": "CONSUMER_SECRET_GOES_HERE"
 			}, {
 				"name": "TWITTER_OAUTH_TOKEN",
-				"value": "205062031-fZ1jDZYr4V20d4F9QoNjnHihvuVpMNnLitPoDrkM"
+				"value": "ACCESS_TOKEN_GOES_HERE"
 			}, {
 				"name": "TWITTER_OAUTH_TOKEN_SECRET",
-				"value": "8a8hbT1stm55NNSbNqkus38698cK7mYQ73cr1SuyxFV1G"
+				"value": "ACCESS_TOKEN_SECRET_GOES_HERE"
 			}, {
 				"name": "TWITTER_KEYWORDS",
-				"value": "iphone,trump"
+				"value": "Seach,keywords,separated,by,commas"
 			}],
 			"volume_mounts": []
 		}],
