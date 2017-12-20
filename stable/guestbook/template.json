@@ -10,7 +10,7 @@
     "label": "environment",
     "value": "dev"
   }],
-  "name": "my-guestbook-with-policy-egwgsrth",
+  "name": "my-guestbook",
   "services": [{
     "containers": [{
       "description": "Master container of the redis cache ",
