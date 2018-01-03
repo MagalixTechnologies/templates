@@ -6,3 +6,11 @@
   display_name: "Data Science"
   description: "Data science and machine learning applications and services"
   icon_url: "https://raw.githubusercontent.com/MagalixTechnologies/templates/master/category_icons/data-science.png"
+- name: productivity
+  display_name: "Productivity Tools"
+  description: "Applications that allow collaborative working"
+  icon_url: "https://raw.githubusercontent.com/MagalixTechnologies/templates/master/category_icons/magalix-logo.png"
+- name: cm
+  display_name: "Content Management"
+  description: "Content Management Applications"
+  icon_url: "https://raw.githubusercontent.com/MagalixTechnologies/templates/master/category_icons/magalix-logo.png"

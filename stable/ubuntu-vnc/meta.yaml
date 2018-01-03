@@ -1,6 +1,6 @@
 name: "ubuntu-vnc"
 description: "Ubuntu 16.04 LXDE with HTML-VNC interface."
 categories:
-  - "demo"
+  - "productivity"
 type: application
 version: 0.1
