@@ -17,4 +17,4 @@ You can install Joomla on Magalix through few simple steps:
 
 4- Please use username: user, and password: Ukd1Zzk3TGpmNA==
 
-as a default username and password
+as a default username and password for initial login
