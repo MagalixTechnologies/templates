@@ -19,7 +19,7 @@ You can install tensorflow-jupyter-notebook on Magalix by few simple steps:
 
 1- Create new app
 
-2- Select tensorflow-jupyter template from the data science templates
+2- Select tensorflow-jupyter template from the Data Science Apps templates
 
 3- You can now get the running application URL from the console, by clicking Endpoints 
 ![Application Endpoints](../../docs/resources/mgx_endpoint.png "Application Endpoints")

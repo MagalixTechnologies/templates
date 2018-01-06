@@ -16,11 +16,11 @@ run as a server, enabling multiple users to access the RStudio IDE using
 a web browser.
 
 ## Installation
-You can install Rocket.Chat on Magalix through few simple steps:
+You can install RStudio on Magalix through few simple steps:
 
 1- Create new app
 
-2- Select Rocket.Chat template from the Demo Apps templates
+2- Select RStudio template from the Data Science Apps templates
 
 3- You can now get the running application URL from the console, by clicking Endpoints 
 ![Application Endpoints](../../docs/resources/mgx_endpoint.png "Application Endpoints")

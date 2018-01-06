@@ -3,7 +3,7 @@
 
 
 ## Installation
-You can install Docuwiki on Magalix through few simple steps:
+You can install Neo4 on Magalix through few simple steps:
 
 1- Create new app
 

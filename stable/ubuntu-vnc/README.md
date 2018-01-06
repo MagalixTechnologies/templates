@@ -7,7 +7,7 @@ You can install ubuntu-vnc on Magalix by few simple steps:
 
 1- Create new app
 
-2- Select ubuntu-vnc template from the data science templates
+2- Select ubuntu-vnc template from the Producticity Apps templates
 
 3- You can now get the running application URL from the console, by clicking Endpoints 
 ![Application Endpoints](../../docs/resources/mgx_endpoint.png "Application Endpoints")
