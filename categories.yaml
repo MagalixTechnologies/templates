@@ -18,3 +18,7 @@
   display_name: "ERP"
   description: "ERP Applications"
   icon_url: "https://raw.githubusercontent.com/MagalixTechnologies/templates/master/category_icons/magalix-logo.png"
+- name: forum
+  display_name: "Forums"
+  description: "Forums Applications"
+  icon_url: "https://raw.githubusercontent.com/MagalixTechnologies/templates/master/category_icons/magalix-logo.png"
