@@ -1,0 +1,144 @@
+{
+	"description": "One of the most versatile open source content management systems.",
+	"name": "drupal",
+	"services": [{
+		"containers": [{
+			"commands": ["/bin/sh", "-c", "set -ex; addgroup --gid 40011 mariadb;  /app-entrypoint.sh /run.sh;"],
+			"description": "",
+			"environment": [{
+				"name": "ALLOW_EMPTY_PASSWORD",
+				"value": "yes"
+			}, {
+				"name": "MARIADB_HOST",
+				"value": "drupalmariadb"
+			}, {
+				"name": "MARIADB_PORT_NUMBER",
+				"value": "3306"
+			}, {
+				"name": "DRUPAL_DATABASE_NAME",
+				"value": "bitnami_drupal"
+			}, {
+				"name": "DRUPAL_DATABASE_USER",
+				"value": "bn_drupal"
+			}, {
+				"name": "DRUPAL_DATABASE_PASSWORD",
+				"value": "YU5QaFhCQjlNRA=="
+			}, {
+				"name": "DRUPAL_USERNAME",
+				"value": "user"
+			}, {
+				"name": "DRUPAL_PASSWORD",
+				"value": "TDhtU2tYREd2bQ=="
+			}, {
+				"name": "DRUPAL_EMAIL",
+				"value": "user@example.com"
+			}, {
+				"name": "NAMI_LOG_LEVEL",
+				"value": "trace"
+			}],
+			"image_url": "bitnami/drupal:latest",
+			"name": "drupal",
+			"ports": [{
+				"container_port": 80,
+				"name": "http"
+			}, {
+				"container_port": 443,
+				"name": "https"
+			}],
+			"volume_mounts": [{
+				"mount_path": "/bitnami/drupal",
+				"name": "drupal-data"
+			}, {
+				"mount_path": "/bitnami/apache",
+				"name": "apache-data"
+			}, {
+				"mount_path": "/bitnami/php",
+				"name": "drupal-php-data"
+			}]
+		}],
+		"name": "drupal",
+		"ports": [{
+			"is_public": true,
+			"path": "/",
+			"port": 80,
+			"target_port": "http"
+		}, {
+			"is_public": false,
+			"port": 443,
+			"target_port": "https"
+		}],
+		"resources": {
+			"io": 10,
+			"memory": 4096,
+			"replicas": 1,
+			"vcpu": 2
+		}
+	}, {
+		"containers": [{
+			"environment": [{
+				"name": "MARIADB_ROOT_PASSWORD",
+				"value": "WjdBaFdFZmd2Uw=="
+			}, {
+				"name": "MARIADB_PASSWORD",
+				"value": "YU5QaFhCQjlNRA=="
+			}, {
+				"name": "MARIADB_USER",
+				"value": "bn_drupal"
+			}, {
+				"name": "MARIADB_DATABASE",
+				"value": "bitnami_drupal"
+			}, {
+				"name": "ALLOW_EMPTY_PASSWORD",
+				"value": "yes"
+			}],
+			"image_url": "bitnami/mariadb:latest",
+			"name": "drupalmariadb",
+			"ports": [{
+				"container_port": 3306,
+				"name": "mysql"
+			}],
+			"volume_mounts": [{
+				"mount_path": "/bitnami/mariadb",
+				"name": "data"
+			}]
+		}],
+		"name": "drupalmariadb",
+		"ports": [{
+			"is_public": false,
+			"port": 3306,
+			"target_port": "mysql"
+		}],
+		"resources": {
+			"io": 10,
+			"memory": 4096,
+			"replicas": 1,
+			"vcpu": 2
+		}
+	}],
+	"target_cloud": {
+		"region": "us-east-1",
+		"type": "aws",
+		"zone": "us-east-1a"
+	},
+	"volumes": [{
+		"access_mode": "ReadWriteOnce",
+		"name": "data",
+		"persistent": true,
+		"size": 8
+	}, {
+		"access_mode": "ReadWriteOnce",
+		"name": "apache-data",
+		"persistent": true,
+		"size": 4
+	}, {
+		"access_mode": "ReadWriteOnce",
+		"name": "drupal-data",
+		"persistent": true,
+		"size": 8
+	}, {
+		"access_mode": "ReadWriteOnce",
+		"name": "drupal-php-data",
+		"persistent": true,
+		"size": 4
+	}]
+}
