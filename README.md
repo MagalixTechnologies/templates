@@ -46,8 +46,7 @@ Here is an example category:
     - length: 1-1024 chars
 - `description`:
     - Description of the category
-    - not required
-    - must match this regexp: `^[-a-zA-Z0-9_., '()]{0,}$`
+    - not required, but highly advised
     - length: 0-1024 chars
 - `icon_url`:
     - Is the URL to the icon file (png, or jpeg)
