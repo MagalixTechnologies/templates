@@ -1,0 +1,153 @@
+{
+	"name": "joomla",
+	"description": "PHP content management system (CMS) for publishing web content",
+	"target_cloud": {
+		"type": "aws",
+		"region": "us-east-1",
+		"zone": "us-east-1a"
+	},
+	"labels": [],
+	"volumes": [{
+		"name": "data",
+		"persistent": true,
+		"size": 8,
+		"labels": [{
+			"label": "chart",
+			"value": "mariadb-0.7.0"
+		}, {
+			"label": "heritage",
+			"value": "Tiller"
+		}, {
+			"label": "release",
+			"value": "fashionable-indri"
+		}, {
+			"label": "app",
+			"value": "fashionable-indri-mariadb"
+		}],
+		"access_mode": "ReadWriteOnce"
+	}, {
+		"name": "apache-data",
+		"persistent": true,
+		"size": 4,
+		"labels": [{
+			"label": "chart",
+			"value": "joomla-0.5.4"
+		}, {
+			"label": "heritage",
+			"value": "Tiller"
+		}, {
+			"label": "release",
+			"value": "fashionable-indri"
+		}, {
+			"label": "app",
+			"value": "fashionable-indri-joomla"
+		}],
+		"access_mode": "ReadWriteOnce"
+	}, {
+		"name": "joomla-data",
+		"persistent": true,
+		"size": 8,
+		"labels": [{
+			"label": "app",
+			"value": "fashionable-indri-joomla"
+		}, {
+			"label": "chart",
+			"value": "joomla-0.5.4"
+		}, {
+			"label": "heritage",
+			"value": "Tiller"
+		}, {
+			"label": "release",
+			"value": "fashionable-indri"
+		}],
+		"access_mode": "ReadWriteOnce"
+	}],
+	"services": [{
+		"name": "joomla",
+		"labels": [],
+		"containers": [{
+			"name": "joomla",
+			"image_url": "bitnami/joomla:3.8.3-r0",
+			"commands": [],
+			"ports": [{
+				"name": "http",
+				"container_port": 80
+			}, {
+				"name": "https",
+				"container_port": 443
+			}],
+			"labels": [],
+			"environment": [{
+				"name": "MARIADB_HOST",
+				"value": "joomlamariadb"
+			}, {
+				"name": "MARIADB_PORT_NUMBER",
+				"value": "3306"
+			}, {
+				"name": "JOOMLA_USERNAME",
+				"value": "user"
+			}, {
+				"name": "JOOMLA_PASSWORD",
+				"value": "Ukd1Zzk3TGpmNA=="
+			}, {
+				"name": "JOOMLA_EMAIL",
+				"value": "user@example.com"
+			}],
+			"volume_mounts": [{
+				"name": "joomla-data",
+				"mount_path": "/bitnami/joomla"
+			}, {
+				"name": "apache-data",
+				"mount_path": "/bitnami/apache"
+			}]
+		}],
+		"resources": {
+			"vcpu": 1,
+			"memory": 2048,
+			"io": 10,
+			"replicas": 1
+		},
+		"ports": [{
+			"is_public": true,
+			"target_port": "http",
+			"port": 80
+		}, {
+			"is_public": false,
+			"target_port": "https",
+			"port": 443
+		}]
+	}, {
+		"name": "joomlamariadb",
+		"labels": [],
+		"containers": [{
+			"name": "joomlamariadb",
+			"image_url": "bitnami/mariadb:10.1.23-r2",
+			"commands": [],
+			"ports": [{
+				"name": "mysql",
+				"container_port": 3306
+			}],
+			"labels": [],
+			"environment": [{
+				"name": "ALLOW_EMPTY_PASSWORD",
+				"value": "yes"
+			}],
+			"volume_mounts": [{
+				"name": "data",
+				"mount_path": "/bitnami/mariadb"
+			}]
+		}],
+		"resources": {
+			"vcpu": 1,
+			"memory": 4096,
+			"io": 10,
+			"replicas": 1
+		},
+		"ports": [{
+			"is_public": false,
+			"target_port": "mysql",
+			"port": 3306
+		}]
+	}],
+	"kpi_policies": []
+}

@@ -1,0 +1,156 @@
+{
+	"name": "phpbb",
+	"description": "Community forum that supports the notion of users and groups, file attachments, full-text search, notifications and more.",
+	"target_cloud": {
+		"type": "aws",
+		"region": "us-east-1",
+		"zone": "us-east-1a"
+	},
+	"labels": [],
+	"volumes": [{
+		"name": "apache-data",
+		"persistent": true,
+		"size": 4,
+		"labels": [{
+			"label": "app",
+			"value": "virtuous-angelfish-phpbb"
+		}, {
+			"label": "chart",
+			"value": "phpbb-0.5.0"
+		}, {
+			"label": "heritage",
+			"value": "Tiller"
+		}, {
+			"label": "release",
+			"value": "virtuous-angelfish"
+		}],
+		"access_mode": "ReadWriteOnce"
+	}, {
+		"name": "data",
+		"persistent": true,
+		"size": 8,
+		"labels": [{
+			"label": "chart",
+			"value": "mariadb-0.7.0"
+		}, {
+			"label": "heritage",
+			"value": "Tiller"
+		}, {
+			"label": "release",
+			"value": "virtuous-angelfish"
+		}, {
+			"label": "app",
+			"value": "virtuous-angelfish-mariadb"
+		}],
+		"access_mode": "ReadWriteOnce"
+	}, {
+		"name": "phpbb-data",
+		"persistent": true,
+		"size": 8,
+		"labels": [{
+			"label": "app",
+			"value": "virtuous-angelfish-phpbb"
+		}, {
+			"label": "chart",
+			"value": "phpbb-0.5.0"
+		}, {
+			"label": "heritage",
+			"value": "Tiller"
+		}, {
+			"label": "release",
+			"value": "virtuous-angelfish"
+		}],
+		"access_mode": "ReadWriteOnce"
+	}],
+	"services": [{
+		"name": "phpbb",
+		"labels": [],
+		"containers": [{
+			"name": "phpbb",
+			"image_url": "bitnami/phpbb:3.2.1-r1",
+			"commands": [],
+			"ports": [{
+				"name": "http",
+				"container_port": 80
+			}, {
+				"name": "https",
+				"container_port": 443
+			}],
+			"labels": [],
+			"environment": [{
+				"name": "MARIADB_HOST",
+				"value": "phpbbmariadb"
+			}, {
+				"name": "MARIADB_PORT_NUMBER",
+				"value": "3306"
+			}, {
+				"name": "PHPBB_USERNAME",
+				"value": "user"
+			}, {
+				"name": "PHPBB_PASSWORD",
+				"value": "U1p4anBUS1U0WQ=="
+			}, {
+				"name": "PHPBB_EMAIL",
+				"value": "user@example.com"
+			}, {
+				"name": "NAMI_LOG_LEVEL",
+				"value": "trace"
+			}],
+			"volume_mounts": [{
+				"name": "phpbb-data",
+				"mount_path": "/bitnami/phpbb"
+			}, {
+				"name": "apache-data",
+				"mount_path": "/bitnami/apache"
+			}]
+		}],
+		"resources": {
+			"vcpu": 1,
+			"memory": 4096,
+			"io": 10,
+			"replicas": 1
+		},
+		"ports": [{
+			"is_public": true,
+			"target_port": "http",
+			"port": 80
+		}, {
+			"is_public": false,
+			"target_port": "https",
+			"port": 443
+		}]
+	}, {
+		"name": "phpbbmariadb",
+		"labels": [],
+		"containers": [{
+			"name": "phpbbmariadb",
+			"image_url": "bitnami/mariadb:10.1.23-r2",
+			"commands": [],
+			"ports": [{
+				"name": "mysql",
+				"container_port": 3306
+			}],
+			"labels": [],
+			"environment": [{
+				"name": "ALLOW_EMPTY_PASSWORD",
+				"value": "yes"
+			}],
+			"volume_mounts": [{
+				"name": "data",
+				"mount_path": "/bitnami/mariadb"
+			}]
+		}],
+		"resources": {
+			"vcpu": 2,
+			"memory": 4096,
+			"io": 10,
+			"replicas": 1
+		},
+		"ports": [{
+			"is_public": false,
+			"target_port": "mysql",
+			"port": 3306
+		}]
+	}],
+	"kpi_policies": []
+}

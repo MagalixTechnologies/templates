@@ -8,7 +8,7 @@ You can install Docuwiki on Magalix through few simple steps:
 
 1- Create new app
 
-2- Select Docuwiki template from the Demo Apps templates
+2- Select Docuwiki template from the Content Management Apps templates
 
 3- You can now get the running application URL from the console, by clicking Endpoints 
 ![Application Endpoints](../../docs/resources/mgx_endpoint.png "Application Endpoints")

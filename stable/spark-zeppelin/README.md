@@ -14,11 +14,11 @@ This application will manage the following:
 
 
 ## Installation
-You can install Rocket.Chat on Magalix through few simple steps:
+You can install Spark on Magalix through few simple steps:
 
 1- Create new app
 
-2- Select Rocket.Chat template from the Demo Apps templates
+2- Select Spark template from the Data Science Apps templates
 
 3- You can now get the running application URL from the console, by clicking Endpoints 
 ![Application Endpoints](../../docs/resources/mgx_endpoint.png "Application Endpoints")
