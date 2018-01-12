@@ -1,0 +1,44 @@
+{
+	"name": "ubuntu-desktop-vnc",
+	"description": "Ubuntu 16.04 LXDE with HTML-VNC interface.",
+	"target_cloud": {
+		"type": "aws",
+		"region": "us-east-1",
+		"zone": "us-east-1a"
+	},
+	"labels": [],
+	"volumes": [],
+	"services": [{
+		"name": "ubuntu",
+		"description": "",
+		"labels": [],
+		"containers": [{
+			"name": "ubuntu",
+			"image_url": "dorowu/ubuntu-desktop-lxde-vnc",
+			"commands": [],
+			"ports": [{
+				"name": "p6080",
+				"container_port": 6080
+			}, {
+				"name": "p80",
+				"container_port": 80
+			}],
+			"labels": [],
+			"environment": [],
+			"volume_mounts": []
+		}],
+		"resources": {
+			"vcpu": 2,
+			"memory": 8192,
+			"io": 40,
+			"replicas": 1
+		},
+		"ports": [{
+			"is_public": true,
+			"target_port": "p80",
+			"port": 80,
+            "is_websocket": true
+		}]
+	}],
+	"kpi_policies": []
+}

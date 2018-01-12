@@ -1,0 +1,135 @@
+{
+  "name": "wordpress",
+  "description": "This template describes how to run a persistent installation of WordPress and MySQL on Magalix. We'll use the mysql and wordpress official Docker images for this installation. (The WordPress image includes an Apache server).",
+  "target_cloud": {
+    "type": "aws",
+    "region": "us-east-1",
+    "zone": "us-east-1a"
+  },
+  "labels": [{
+    "label": "environment",
+    "value": "dev"
+  }, {
+    "label": "app",
+    "value": "wordpress"
+  }],
+  "volumes": [{
+    "name": "mysql-db",
+    "persistent": true,
+    "size": 20,
+    "recycle_policy": "recycle",
+    "access_mode": "ReadWriteOnce"
+  }, {
+    "name": "wordpress-persistent-storage",
+    "persistent": true,
+    "size": 20,
+    "recycle_policy": "recycle",
+    "access_mode": "ReadWriteOnce"
+  }],
+  "services": [{
+    "name": "wordpress-mysql",
+    "description": "This service hosts my sql database, which uses a persistent volume for DB data",
+    "labels": [{
+      "label": "environment",
+      "value": "dev"
+    }, {
+      "label": "app",
+      "value": "wordpress"
+    }, {
+      "label": "role",
+      "value": "mysql"
+    }],
+    "containers": [{
+      "name": "mysql",
+      "description": "Master container of the redis cache ",
+      "image_url": "mysql:5.7",
+      "commands": [],
+      "ports": [{
+        "name": "mysql",
+        "container_port": 3306
+      }],
+      "labels": [{
+        "label": "environment",
+        "value": "dev"
+      }, {
+        "label": "role",
+        "value": "master"
+      }],
+      "environment": [{
+        "name": "MYSQL_ROOT_PASSWORD",
+        "value": "password!"
+      }],
+      "volume_mounts": [{
+        "name": "mysql-db",
+        "mount_path": "/var/lib/mysql"
+      }]
+    }],
+    "resources": {
+      "vcpu": 1,
+      "memory": 4096,
+      "io": 20,
+      "replicas": 1
+    },
+    "ports": [{
+      "is_public": false,
+      "target_port": "mysql",
+      "port": 3306
+    }]
+  }, {
+    "name": "wordpress",
+    "description": "wordpress service (includes Apache)",
+    "labels": [{
+      "label": "environment",
+      "value": "dev"
+    }, {
+      "label": "app",
+      "value": "wordpress"
+    }],
+    "containers": [{
+      "name": "wordpress",
+      "description": "wordpress container, includes apache",
+      "image_url": "wordpress:4.6.1-apache",
+      "commands": [],
+      "ports": [{
+        "name": "http-server",
+        "container_port": 80
+      }],
+      "labels": [{
+        "label": "environment",
+        "value": "dev"
+      }, {
+        "label": "app",
+        "value": "wordpress"
+      }],
+      "environment": [{
+        "name": "WORDPRESS_DB_HOST",
+        "value": "wordpress-mysql"
+      }, {
+        "name": "WORDPRESS_DB_PASSWORD",
+        "value": "password!"
+      }],
+      "volume_mounts": [{
+        "name": "wordpress-persistent-storage",
+        "mount_path": "/var/www/html"
+      }]
+    }],
+    "resources": {
+      "vcpu": 1,
+      "memory": 4096,
+      "io": 10,
+      "replicas": 2
+    },
+    "ports": [{
+      "is_public": true,
+      "target_port": "http-server",
+      "port": 80,
+      "kpi_policy": "wordpress"
+    }]
+  }],
+  "kpi_policies": [{
+    "definition": {
+      "max_latency": "800ms"
+    },
+    "name": "wordpress"
+  }]
+}

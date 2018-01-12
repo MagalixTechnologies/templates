@@ -24,15 +24,15 @@
 			"volume_mounts": []
 		}],
 		"resources": {
-			"vcpu": 1,
-			"memory": 1024,
-			"io": 10,
+			"vcpu": 4,
+			"memory": 4096,
+			"io": 50,
 			"replicas": 1
 		},
 		"ports": [{
 			"is_public": true,
 			"target_port": "p8888",
-			"port": 8888
+			"port": 80
 		}]
 	}],
 	"volumes": [],

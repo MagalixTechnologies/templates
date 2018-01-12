@@ -1,0 +1,6 @@
+name: "phpbb"
+description: "phpbb is a community forum that supports the notion of users and groups, file attachments, full-text search, notifications and more.."
+categories:
+  - "forum"
+type: application
+version: 0.1

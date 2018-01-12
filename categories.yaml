@@ -1,12 +1,24 @@
 - name: demo
   display_name: "Demo Apps"
   description: "Applications to demostrate Magalix capabilities"
-  icon_url: "https://raw.githubusercontent.com/MagalixTechnologies/templates/master/category_icons/magalix-logo.png"
+  icon_url: "https://raw.githubusercontent.com/MagalixTechnologies/templates/master/category_icons/demo-apps.png"
 - name: data-science
   display_name: "Data Science"
   description: "Data science and machine learning applications and services"
   icon_url: "https://raw.githubusercontent.com/MagalixTechnologies/templates/master/category_icons/data-science.png"
-- name: get-started
-  display_name: "Get Started"
-  description: "Simple applications to show case core Magalix features"
-  icon_url: "https://raw.githubusercontent.com/MagalixTechnologies/templates/master/category_icons/magalix-logo.png"
+- name: productivity
+  display_name: "Productivity Tools"
+  description: "Applications that allow collaborative working"
+  icon_url: "https://raw.githubusercontent.com/MagalixTechnologies/templates/master/category_icons/productivity.png"
+- name: cm
+  display_name: "Content Management"
+  description: "Content Management Applications"
+  icon_url: "https://raw.githubusercontent.com/MagalixTechnologies/templates/master/category_icons/cms.png"
+- name: erp
+  display_name: "ERP"
+  description: "ERP Applications"
+  icon_url: "https://raw.githubusercontent.com/MagalixTechnologies/templates/master/category_icons/erp.png"
+- name: forum
+  display_name: "Forums"
+  description: "Forums Applications"
+  icon_url: "https://raw.githubusercontent.com/MagalixTechnologies/templates/master/category_icons/forums.png"

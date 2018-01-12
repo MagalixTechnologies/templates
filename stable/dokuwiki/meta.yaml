@@ -1,6 +1,6 @@
 name: "dokuwiki"
 description: "DokuWiki is a standards-compliant, simple to use wiki optimized for creating documentation. It is targeted at developer teams, workgroups, and small companies. All data is stored in plain text files, so no database is required."
 categories:
-  - "demo"
+  - "cm"
 type: application
 version: 0.1

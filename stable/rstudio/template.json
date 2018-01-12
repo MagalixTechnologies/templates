@@ -36,7 +36,7 @@
 		"ports": [{
 			"is_public": true,
 			"target_port": "port1",
-			"port": 8787
+			"port": 80
 		}]
 	}],
 	"volumes": [{

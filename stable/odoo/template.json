@@ -1,0 +1,108 @@
+{
+	"description": "A suite of web based open source business apps.",
+	"kpi_policies": [{
+		"definition": {
+			"max_latency": "400ms"
+		},
+		"name": "odoo"
+	}],
+	"name": "odoo",
+	"services": [{
+		"containers": [{
+			"environment": [{
+				"name": "POSTGRES_USER",
+				"value": "postgres"
+			}, {
+				"name": "PGUSER",
+				"value": "postgres"
+			}, {
+				"name": "PGDATA",
+				"value": "/var/lib/postgresql/data/pgdata"
+			}, {
+				"name": "POSTGRES_PASSWORD",
+				"value": "bzdhS0RsYkliag=="
+			}],
+			"image_url": "bitnami/postgresql:latest",
+			"name": "odoopostgresql",
+			"ports": [{
+				"container_port": 5432,
+				"name": "postgresql"
+			}],
+			"volume_mounts": [{
+				"mount_path": "/var/lib/postgresql/data/pgdata",
+				"name": "data"
+			}]
+		}],
+		"name": "odoopostgresql",
+		"ports": [{
+			"is_public": false,
+			"port": 5432,
+			"target_port": "postgresql"
+		}],
+		"resources": {
+			"io": 30,
+			"memory": 8192,
+			"replicas": 1,
+			"vcpu": 4
+		}
+	}, {
+		"containers": [{
+			"environment": [{
+				"name": "POSTGRESQL_HOST",
+				"value": "odoopostgresql"
+			}, {
+				"name": "POSTGRESQL_PORT_NUMBER",
+				"value": "5432"
+			}, {
+				"name": "POSTGRESQL_PASSWORD",
+				"value": "bzdhS0RsYkliag=="
+			}, {
+				"name": "ODOO_EMAIL",
+				"value": "user@example.com"
+			}, {
+				"name": "ODOO_PASSWORD",
+				"value": "Q01iU3NzQjBSVQ=="
+			}],
+			"image_url": "bitnami/odoo:11",
+			"name": "odoo",
+			"ports": [{
+				"container_port": 8069,
+				"name": "http"
+			}],
+			"volume_mounts": [{
+				"mount_path": "/bitnami/odoo",
+				"name": "odoo-data"
+			}]
+		}],
+		"name": "odoo",
+		"ports": [{
+			"is_public": true,
+			"kpi_policy": "odoo",
+			"path": "/",
+			"port": 80,
+			"target_port": "http"
+		}],
+		"resources": {
+			"io": 30,
+			"memory": 8192,
+			"replicas": 1,
+			"vcpu": 4
+		}
+	}],
+	"target_cloud": {
+		"region": "us-east-1",
+		"type": "aws",
+		"zone": "us-east-1a"
+	},
+	"volumes": [{
+		"access_mode": "ReadWriteOnce",
+		"name": "data",
+		"persistent": true,
+		"size": 8
+	}, {
+		"access_mode": "ReadWriteOnce",
+		"name": "odoo-data",
+		"persistent": true,
+		"size": 8
+	}]
+}
