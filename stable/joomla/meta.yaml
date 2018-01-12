@@ -1,5 +1,5 @@
 name: "joomla"
-description: "Joomla is a free and open-source content management system - CMS for publishing web content. It is built on a model–view–controller web application framework that can be used independently of the CMS."
+description: "Joomla is a free and open-source content management system - CMS for publishing web content. It has been built on a model–view–controller web application framework that can be used independently of the CMS."
 categories:
   - "cm"
 type: application
