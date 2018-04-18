@@ -1,82 +1,8 @@
 {
-	"name": "joomla",
 	"description": "PHP content management system (CMS) for publishing web content",
-	"target_cloud": {
-		"type": "aws",
-		"region": "us-east-1",
-		"zone": "us-east-1a"
-	},
-	"labels": [],
-	"volumes": [{
-		"name": "data",
-		"persistent": true,
-		"size": 8,
-		"labels": [{
-			"label": "chart",
-			"value": "mariadb-0.7.0"
-		}, {
-			"label": "heritage",
-			"value": "Tiller"
-		}, {
-			"label": "release",
-			"value": "fashionable-indri"
-		}, {
-			"label": "app",
-			"value": "fashionable-indri-mariadb"
-		}],
-		"access_mode": "ReadWriteOnce"
-	}, {
-		"name": "apache-data",
-		"persistent": true,
-		"size": 4,
-		"labels": [{
-			"label": "chart",
-			"value": "joomla-0.5.4"
-		}, {
-			"label": "heritage",
-			"value": "Tiller"
-		}, {
-			"label": "release",
-			"value": "fashionable-indri"
-		}, {
-			"label": "app",
-			"value": "fashionable-indri-joomla"
-		}],
-		"access_mode": "ReadWriteOnce"
-	}, {
-		"name": "joomla-data",
-		"persistent": true,
-		"size": 8,
-		"labels": [{
-			"label": "app",
-			"value": "fashionable-indri-joomla"
-		}, {
-			"label": "chart",
-			"value": "joomla-0.5.4"
-		}, {
-			"label": "heritage",
-			"value": "Tiller"
-		}, {
-			"label": "release",
-			"value": "fashionable-indri"
-		}],
-		"access_mode": "ReadWriteOnce"
-	}],
+	"name": "joomla",
 	"services": [{
-		"name": "joomla",
-		"labels": [],
 		"containers": [{
-			"name": "joomla",
-			"image_url": "bitnami/joomla:3.8.3-r0",
-			"commands": [],
-			"ports": [{
-				"name": "http",
-				"container_port": 80
-			}, {
-				"name": "https",
-				"container_port": 443
-			}],
-			"labels": [],
 			"environment": [{
 				"name": "MARIADB_HOST",
 				"value": "joomlamariadb"
@@ -84,70 +10,113 @@
 				"name": "MARIADB_PORT_NUMBER",
 				"value": "3306"
 			}, {
-				"name": "JOOMLA_USERNAME",
-				"value": "user"
+				"name": "JOOMLA_DATABASE_USER",
+				"value": "bn_joomla"
 			}, {
-				"name": "JOOMLA_PASSWORD",
-				"value": "Ukd1Zzk3TGpmNA=="
+				"name": "JOOMLA_DATABASE_NAME",
+				"value": "bitnami_joomla"
 			}, {
-				"name": "JOOMLA_EMAIL",
-				"value": "user@example.com"
-			}],
-			"volume_mounts": [{
-				"name": "joomla-data",
-				"mount_path": "/bitnami/joomla"
-			}, {
-				"name": "apache-data",
-				"mount_path": "/bitnami/apache"
-			}]
-		}],
-		"resources": {
-			"vcpu": 1,
-			"memory": 2048,
-			"io": 10,
-			"replicas": 1
-		},
-		"ports": [{
-			"is_public": true,
-			"target_port": "http",
-			"port": 80
-		}, {
-			"is_public": false,
-			"target_port": "https",
-			"port": 443
-		}]
-	}, {
-		"name": "joomlamariadb",
-		"labels": [],
-		"containers": [{
-			"name": "joomlamariadb",
-			"image_url": "bitnami/mariadb:10.1.23-r2",
-			"commands": [],
-			"ports": [{
-				"name": "mysql",
-				"container_port": 3306
-			}],
-			"labels": [],
-			"environment": [{
 				"name": "ALLOW_EMPTY_PASSWORD",
 				"value": "yes"
 			}],
+			"image_url": "bitnami/joomla:latest",
+			"name": "joomla",
+			"ports": [{
+				"container_port": 80,
+				"name": "http"
+			}, {
+				"container_port": 443,
+				"name": "https"
+			}],
+			"resources": {
+				"io": 10,
+				"memory": 2048,
+				"vcpu": 1
+			},
 			"volume_mounts": [{
-				"name": "data",
-				"mount_path": "/bitnami/mariadb"
+				"mount_path": "/bitnami/joomla",
+				"name": "joomla-data"
+			}, {
+				"mount_path": "/bitnami/apache",
+				"name": "apache-data"
 			}]
 		}],
+		"name": "joomla",
+		"ports": [{
+			"is_public": true,
+			"is_websocket": false,
+			"path": "/",
+			"port": 80,
+			"target_port": "http"
+		}, {
+			"is_public": false,
+			"is_websocket": false,
+			"port": 443,
+			"target_port": "https"
+		}],
 		"resources": {
-			"vcpu": 1,
-			"memory": 4096,
-			"io": 10,
 			"replicas": 1
 		},
+		"restart": "always"
+	}, {
+		"containers": [{
+			"environment": [{
+				"name": "ALLOW_EMPTY_PASSWORD",
+				"value": "yes"
+			}, {
+				"name": "MARIADB_USER",
+				"value": "bn_joomla"
+			}, {
+				"name": "MARIADB_DATABASE",
+				"value": "bitnami_joomla"
+			}],
+			"image_url": "bitnami/mariadb:10.1.23-r2",
+			"name": "joomlamariadb",
+			"ports": [{
+				"container_port": 3306,
+				"name": "mysql"
+			}],
+			"resources": {
+				"io": 10,
+				"memory": 4096,
+				"vcpu": 1
+			},
+			"volume_mounts": [{
+				"mount_path": "/bitnami/mariadb",
+				"name": "data"
+			}]
+		}],
+		"name": "joomlamariadb",
 		"ports": [{
 			"is_public": false,
-			"target_port": "mysql",
-			"port": 3306
-		}]
+			"is_websocket": false,
+			"port": 3306,
+			"target_port": "mysql"
+		}],
+		"resources": {
+			"replicas": 1
+		},
+		"restart": "always"
 	}],
-	"kpi_policies": []
+	"target_cloud": {
+		"region": "us-east-1",
+		"type": "aws",
+		"zone": "us-east-1a"
+	},
+	"volumes": [{
+		"access_mode": "ReadWriteOnce",
+		"name": "data",
+		"persistent": true,
+		"size": 8
+	}, {
+		"access_mode": "ReadWriteOnce",
+		"name": "apache-data",
+		"persistent": true,
+		"size": 4
+	}, {
+		"access_mode": "ReadWriteOnce",
+		"name": "joomla-data",
+		"persistent": true,
+		"size": 8
+	}]
 }
