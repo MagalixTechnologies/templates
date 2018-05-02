@@ -32,7 +32,7 @@
         "name": "DOKUWIKI_WIKI_NAME",
         "value": "My Wiki"
       }],
-      "image_url": "bitnami/dokuwiki:20160626a-r9",
+      "image_url": "bitnami/dokuwiki:latest",
       "name": "dokuwiki",
       "ports": [{
         "container_port": 80,
