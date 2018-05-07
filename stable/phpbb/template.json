@@ -1,82 +1,8 @@
 {
-	"name": "phpbb",
 	"description": "Community forum that supports the notion of users and groups, file attachments, full-text search, notifications and more.",
-	"target_cloud": {
-		"type": "aws",
-		"region": "us-east-1",
-		"zone": "us-east-1a"
-	},
-	"labels": [],
-	"volumes": [{
-		"name": "apache-data",
-		"persistent": true,
-		"size": 4,
-		"labels": [{
-			"label": "app",
-			"value": "virtuous-angelfish-phpbb"
-		}, {
-			"label": "chart",
-			"value": "phpbb-0.5.0"
-		}, {
-			"label": "heritage",
-			"value": "Tiller"
-		}, {
-			"label": "release",
-			"value": "virtuous-angelfish"
-		}],
-		"access_mode": "ReadWriteOnce"
-	}, {
-		"name": "data",
-		"persistent": true,
-		"size": 8,
-		"labels": [{
-			"label": "chart",
-			"value": "mariadb-0.7.0"
-		}, {
-			"label": "heritage",
-			"value": "Tiller"
-		}, {
-			"label": "release",
-			"value": "virtuous-angelfish"
-		}, {
-			"label": "app",
-			"value": "virtuous-angelfish-mariadb"
-		}],
-		"access_mode": "ReadWriteOnce"
-	}, {
-		"name": "phpbb-data",
-		"persistent": true,
-		"size": 8,
-		"labels": [{
-			"label": "app",
-			"value": "virtuous-angelfish-phpbb"
-		}, {
-			"label": "chart",
-			"value": "phpbb-0.5.0"
-		}, {
-			"label": "heritage",
-			"value": "Tiller"
-		}, {
-			"label": "release",
-			"value": "virtuous-angelfish"
-		}],
-		"access_mode": "ReadWriteOnce"
-	}],
+	"name": "phpbb",
 	"services": [{
-		"name": "phpbb",
-		"labels": [],
 		"containers": [{
-			"name": "phpbb",
-			"image_url": "bitnami/phpbb:3.2.1-r1",
-			"commands": [],
-			"ports": [{
-				"name": "http",
-				"container_port": 80
-			}, {
-				"name": "https",
-				"container_port": 443
-			}],
-			"labels": [],
 			"environment": [{
 				"name": "MARIADB_HOST",
 				"value": "phpbbmariadb"
@@ -96,61 +22,98 @@
 				"name": "NAMI_LOG_LEVEL",
 				"value": "trace"
 			}],
-			"volume_mounts": [{
-				"name": "phpbb-data",
-				"mount_path": "/bitnami/phpbb"
+			"image_url": "bitnami/phpbb:3.2.1-r1",
+			"name": "phpbb",
+			"ports": [{
+				"container_port": 80,
+				"name": "http"
 			}, {
-				"name": "apache-data",
-				"mount_path": "/bitnami/apache"
+				"container_port": 443,
+				"name": "https"
+			}],
+			"resources": {
+				"io": 50,
+				"memory": 8704,
+				"vcpu": 1
+			},
+			"volume_mounts": [{
+				"mount_path": "/bitnami/apache",
+				"name": "apache-data"
+			}, {
+				"mount_path": "/bitnami/phpbb",
+				"name": "phpbb-data"
 			}]
 		}],
-		"resources": {
-			"vcpu": 1,
-			"memory": 4096,
-			"io": 10,
-			"replicas": 1
-		},
+		"name": "phpbb",
 		"ports": [{
 			"is_public": true,
-			"target_port": "http",
-			"port": 80
+			"is_websocket": false,
+			"path": "/",
+			"port": 80,
+			"target_port": "http"
 		}, {
 			"is_public": false,
-			"target_port": "https",
-			"port": 443
-		}]
+			"is_websocket": false,
+			"port": 443,
+			"target_port": "https"
+		}],
+		"resources": {
+			"replicas": 1
+		},
+		"restart": "always"
 	}, {
-		"name": "phpbbmariadb",
-		"labels": [],
 		"containers": [{
-			"name": "phpbbmariadb",
-			"image_url": "bitnami/mariadb:10.1.23-r2",
-			"commands": [],
-			"ports": [{
-				"name": "mysql",
-				"container_port": 3306
-			}],
-			"labels": [],
 			"environment": [{
 				"name": "ALLOW_EMPTY_PASSWORD",
 				"value": "yes"
 			}],
+			"image_url": "bitnami/mariadb:10.1.23-r2",
+			"name": "phpbbmariadb",
+			"ports": [{
+				"container_port": 3306,
+				"name": "mysql"
+			}],
+			"resources": {
+				"io": 50,
+				"memory": 4096,
+				"vcpu": 2
+			},
 			"volume_mounts": [{
-				"name": "data",
-				"mount_path": "/bitnami/mariadb"
+				"mount_path": "/bitnami/mariadb",
+				"name": "data"
 			}]
 		}],
-		"resources": {
-			"vcpu": 2,
-			"memory": 4096,
-			"io": 10,
-			"replicas": 1
-		},
+		"name": "phpbbmariadb",
 		"ports": [{
 			"is_public": false,
-			"target_port": "mysql",
-			"port": 3306
-		}]
+			"is_websocket": false,
+			"port": 3306,
+			"target_port": "mysql"
+		}],
+		"resources": {
+			"replicas": 1
+		},
+		"restart": "always"
 	}],
-	"kpi_policies": []
+	"target_cloud": {
+		"region": "us-east-1",
+		"type": "aws",
+		"zone": "us-east-1a"
+	},
+	"volumes": [{
+		"access_mode": "ReadWriteOnce",
+		"name": "apache-data",
+		"persistent": true,
+		"size": 4
+	}, {
+		"access_mode": "ReadWriteOnce",
+		"name": "data",
+		"persistent": true,
+		"size": 8
+	}, {
+		"access_mode": "ReadWriteOnce",
+		"name": "phpbb-data",
+		"persistent": true,
+		"size": 8
+	}]
 }

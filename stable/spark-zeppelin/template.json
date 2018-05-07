@@ -1,24 +1,9 @@
 {
-	"name": "spark-zeppelin",
 	"description": "Fast and general-purpose cluster computing system.",
-	"target_cloud": {
-		"type": "aws",
-		"region": "us-east-1",
-		"zone": "us-east-1a"
-	},
-	"labels": [],
+	"name": "spark-zeppelin",
 	"services": [{
-		"name": "spark-mgx-worker",
-		"labels": [],
 		"containers": [{
-			"name": "spark-mgx-worker",
-			"image_url": "gcr.io/google_containers/spark:1.5.1_v3",
 			"commands": ["/opt/spark/bin/spark-class", "org.apache.spark.deploy.worker.Worker", "spark://spark-mgx-master:7077", "--webui-port", "8081"],
-			"ports": [{
-				"name": "p8081",
-				"container_port": 8081
-			}],
-			"labels": [],
 			"environment": [{
 				"name": "SPARK_DAEMON_MEMORY",
 				"value": "1g"
@@ -26,82 +11,100 @@
 				"name": "SPARK_WORKER_MEMORY",
 				"value": "1g"
 			}],
-			"volume_mounts": []
+			"image_url": "gcr.io/google_containers/spark:1.5.1_v3",
+			"name": "spark-mgx-worker",
+			"ports": [{
+				"container_port": 8081,
+				"name": "p8081"
+			}],
+			"resources": {
+				"io": 50,
+				"memory": 4096,
+				"vcpu": 1
+			}
 		}],
-		"resources": {
-			"vcpu": 1,
-			"memory": 512,
-			"io": 10,
-			"replicas": 3
-		},
+		"name": "spark-mgx-worker",
 		"ports": [{
 			"is_public": true,
-			"target_port": "p8081",
-			"port": 8091
-		}]
+			"is_websocket": false,
+			"path": "/",
+			"port": 8091,
+			"target_port": "p8081"
+		}],
+		"resources": {
+			"replicas": 3
+		},
+		"restart": "always"
 	}, {
-		"name": "spark-mgx-master",
-		"labels": [],
 		"containers": [{
-			"name": "spark-mgx-master",
-			"image_url": "gcr.io/google_containers/spark:1.5.1_v3",
 			"commands": ["/bin/sh", "-c", "echo $(hostname -i) spark-mgx-master >> /etc/hosts; /opt/spark/bin/spark-class org.apache.spark.deploy.master.Master --ip spark-mgx-master --port 7077 --webui-port 8080"],
-			"ports": [{
-				"name": "p7077",
-				"container_port": 7077
-			}, {
-				"name": "p8080",
-				"container_port": 8080
-			}],
-			"labels": [],
 			"environment": [{
 				"name": "SPARK_DAEMON_MEMORY",
 				"value": "1g"
 			}],
-			"volume_mounts": []
+			"image_url": "gcr.io/google_containers/spark:1.5.1_v3",
+			"name": "spark-mgx-master",
+			"ports": [{
+				"container_port": 7077,
+				"name": "p7077"
+			}, {
+				"container_port": 8080,
+				"name": "p8080"
+			}],
+			"resources": {
+				"io": 50,
+				"memory": 4096,
+				"vcpu": 1
+			}
 		}],
-		"resources": {
-			"vcpu": 1,
-			"memory": 512,
-			"io": 10,
-			"replicas": 1
-		},
+		"name": "spark-mgx-master",
 		"ports": [{
 			"is_public": false,
-			"target_port": "p7077",
-			"port": 7077
+			"is_websocket": false,
+			"port": 7077,
+			"target_port": "p7077"
 		}, {
 			"is_public": true,
-			"target_port": "p8080",
-			"port": 8090
-		}]
-	}, {
-		"name": "spark-mgx-zeppelin",
-		"labels": [],
-		"containers": [{
-			"name": "spark-mgx-zeppelin",
-			"image_url": "gcr.io/google_containers/zeppelin:v0.5.5_v2",
-			"commands": ["/bin/sh", "-c", "sed -i.bak s/spark-master:7077/spark-mgx-master:7077/g /opt/zeppelin/conf/zeppelin-env.sh; /opt/zeppelin/bin/docker-zeppelin.sh"],
-			"ports": [{
-				"name": "p8080",
-				"container_port": 8080
-			}],
-			"labels": [],
-			"environment": [],
-			"volume_mounts": []
+			"is_websocket": false,
+			"path": "/",
+			"port": 8090,
+			"target_port": "p8080"
 		}],
 		"resources": {
-			"vcpu": 1,
-			"memory": 512,
-			"io": 10,
 			"replicas": 1
 		},
+		"restart": "always"
+	}, {
+		"containers": [{
+			"commands": ["/bin/sh", "-c", "sed -i.bak s/spark-master:7077/spark-mgx-master:7077/g /opt/zeppelin/conf/zeppelin-env.sh; /opt/zeppelin/bin/docker-zeppelin.sh"],
+			"image_url": "gcr.io/google_containers/zeppelin:v0.5.5_v2",
+			"name": "spark-mgx-zeppelin",
+			"ports": [{
+				"container_port": 8080,
+				"name": "p8080"
+			}],
+			"resources": {
+				"io": 50,
+				"memory": 4096,
+				"vcpu": 1
+			}
+		}],
+		"name": "spark-mgx-zeppelin",
 		"ports": [{
 			"is_public": true,
-			"target_port": "p8080",
-			"port": 8080
-		}]
+			"is_websocket": false,
+			"path": "/",
+			"port": 8080,
+			"target_port": "p8080"
+		}],
+		"resources": {
+			"replicas": 1
+		},
+		"restart": "always"
 	}],
-	"volumes": [],
-	"kpi_policies": []
+	"target_cloud": {
+		"region": "us-east-1",
+		"type": "aws",
+		"zone": "us-east-1a"
+	}
 }

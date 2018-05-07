@@ -1,39 +1,9 @@
 {
-	"name": "elasticsearch",
 	"description": "",
-	"target_cloud": {
-		"type": "aws",
-		"region": "us-east-1",
-		"zone": "us-east-1a"
-	},
-	"labels": [],
+	"name": "elasticsearch",
 	"services": [{
-		"name": "elasticsearch",
-		"description": "",
-		"resources": {
-			"replicas": 1
-		},
-		"restart": "always",
-		"labels": [],
-		"ports": [{
-			"is_public": false,
-			"target_port": "tcp",
-			"is_websocket": false,
-			"port": 9300
-		}],
 		"containers": [{
-			"name": "es-master",
 			"description": "intended for clustering management only, no data, no HTTP API",
-			"resources": {
-				"vcpu": 2,
-				"memory": 4096,
-				"io": 100
-			},
-			"image_url": "docker.elastic.co/elasticsearch/elasticsearch:6.2.3",
-			"ports": [{
-				"name": "tcp",
-				"container_port": 9300
-			}],
 			"environment": [{
 				"name": "CLUSTER_NAME",
 				"value": "docker-cluster"
@@ -53,74 +23,68 @@
 				"name": "HTTP_ENABLE",
 				"value": "false"
 			}],
-			"labels": [],
-			"commands": [],
+			"image_url": "docker.elastic.co/elasticsearch/elasticsearch:6.2.3",
+			"name": "es-master",
+			"ports": [{
+				"container_port": 9300,
+				"name": "tcp"
+			}],
+			"resources": {
+				"io": 100,
+				"memory": 4096,
+				"vcpu": 2
+			},
 			"volume_mounts": [{
 				"mount_path": "/usr/share/elasticsearch/data",
 				"name": "es-master"
 			}]
-		}]
-	}, {
-		"name": "kibana",
+		}],
 		"description": "",
+		"name": "elasticsearch",
+		"ports": [{
+			"is_public": false,
+			"is_websocket": false,
+			"port": 9300,
+			"target_port": "tcp"
+		}],
 		"resources": {
 			"replicas": 1
 		},
-		"restart": "always",
-		"labels": [],
-		"ports": [{
-			"is_public": true,
-			"target_port": "web",
-			"is_websocket": false,
-			"port": 5601,
-			"kpi_policy": "kibana"
-		}],
+		"restart": "always"
+	}, {
 		"containers": [{
-			"name": "kibana",
-			"resources": {
-				"vcpu": 2,
-				"memory": 4096,
-				"io": 50
-			},
-			"image_url": "docker.elastic.co/kibana/kibana:6.2.3",
-			"ports": [{
-				"name": "web",
-				"container_port": 5601
-			}],
 			"environment": [{
 				"name": "ELASTICSEARCH_URL",
 				"value": "http://es-client:9200"
 			}],
-			"labels": [],
-			"commands": [],
-			"volume_mounts": []
-		}]
-	}, {
-		"name": "logstash",
+			"image_url": "docker.elastic.co/kibana/kibana:6.2.3",
+			"name": "kibana",
+			"ports": [{
+				"container_port": 5601,
+				"name": "web"
+			}],
+			"resources": {
+				"io": 50,
+				"memory": 4096,
+				"vcpu": 2
+			}
+		}],
 		"description": "",
+		"name": "kibana",
+		"ports": [{
+			"is_public": true,
+			"is_websocket": false,
+			"path": "/",
+			"port": 5601,
+			"target_port": "web"
+		}],
 		"resources": {
 			"replicas": 1
 		},
-		"restart": "always",
-		"labels": [],
-		"ports": [{
-			"is_public": true,
-			"target_port": "http",
-			"is_websocket": false,
-			"port": 9600
-		}],
+		"restart": "always"
+	}, {
 		"containers": [{
-			"name": "logstash",
-			"resources": {
-				"vcpu": 1,
-				"memory": 2048,
-				"io": 10
-			},
-			"image_url": "docker.elastic.co/logstash/logstash:6.2.3",
-			"ports": [{
-				"name": "http",
-				"container_port": 9600
-			}],
+			"commands": ["/bin/bash", "-c", "echo input {twitter {consumer_key =\\> \\\"\\${TWITTER_CONSUMER_KEY}\\\" consumer_secret =\\> \\\"\\${TWITTER_CONSUMER_SECRET}\\\" oauth_token =\\> \\\"\\${TWITTER_OAUTH_TOKEN}\\\" oauth_token_secret =\\> \\\"\\${TWITTER_OAUTH_TOKEN_SECRET}\\\" keywords =\\> [\\\"\\${TWITTER_KEYWORDS}\\\"] full_tweet =\\> true}} output {elasticsearch {hosts =\\> \\\"es-client:9200\\\"}} >  /usr/share/logstash/pipeline/logstash.conf; bin/logstash -f /usr/share/logstash/pipeline/logstash.conf --config.reload.automatic"],
 			"environment": [{
 				"name": "TWITTER_CONSUMER_KEY",
 				"value": "CONSUMER_KEY_GOES_HERE"
@@ -137,45 +101,34 @@
 				"name": "TWITTER_KEYWORDS",
 				"value": "Seach,keywords,separated,by,commas"
 			}],
-			"labels": [],
-			"commands": ["/bin/bash", "-c", "echo input {twitter {consumer_key =\\> \\\"\\${TWITTER_CONSUMER_KEY}\\\" consumer_secret =\\> \\\"\\${TWITTER_CONSUMER_SECRET}\\\" oauth_token =\\> \\\"\\${TWITTER_OAUTH_TOKEN}\\\" oauth_token_secret =\\> \\\"\\${TWITTER_OAUTH_TOKEN_SECRET}\\\" keywords =\\> [\\\"\\${TWITTER_KEYWORDS}\\\"] full_tweet =\\> true}} output {elasticsearch {hosts =\\> \\\"es-client:9200\\\"}} >  /usr/share/logstash/pipeline/logstash.conf; bin/logstash -f /usr/share/logstash/pipeline/logstash.conf --config.reload.automatic"],
-			"volume_mounts": []
-		}]
-	}, {
-		"name": "es-client",
+			"image_url": "docker.elastic.co/logstash/logstash:6.2.3",
+			"name": "logstash",
+			"ports": [{
+				"container_port": 9600,
+				"name": "http"
+			}],
+			"resources": {
+				"io": 10,
+				"memory": 2048,
+				"vcpu": 1
+			}
+		}],
 		"description": "",
+		"name": "logstash",
+		"ports": [{
+			"is_public": true,
+			"is_websocket": false,
+			"path": "/",
+			"port": 9600,
+			"target_port": "http"
+		}],
 		"resources": {
 			"replicas": 1
 		},
-		"restart": "always",
-		"labels": [],
-		"ports": [{
-			"is_public": true,
-			"target_port": "http",
-			"is_websocket": false,
-			"port": 9200
-		}, {
-			"is_public": false,
-			"target_port": "tcp",
-			"is_websocket": false,
-			"port": 9300
-		}],
+		"restart": "always"
+	}, {
 		"containers": [{
-			"name": "es-client",
 			"description": "intended for client usage, no data, with HTTP API",
-			"resources": {
-				"vcpu": 2,
-				"memory": 4096,
-				"io": 100
-			},
-			"image_url": "docker.elastic.co/elasticsearch/elasticsearch:6.2.3",
-			"ports": [{
-				"name": "http",
-				"container_port": 9200
-			}, {
-				"name": "tcp",
-				"container_port": 9300
-			}],
 			"environment": [{
 				"name": "DISCOVERY_ZEN_PING_UNICAST_HOSTS",
 				"value": "elasticsearch"
@@ -195,40 +148,46 @@
 				"name": "HTTP_ENABLE",
 				"value": "true"
 			}],
-			"labels": [],
-			"commands": [],
+			"image_url": "docker.elastic.co/elasticsearch/elasticsearch:6.2.3",
+			"name": "es-client",
+			"ports": [{
+				"container_port": 9200,
+				"name": "http"
+			}, {
+				"container_port": 9300,
+				"name": "tcp"
+			}],
+			"resources": {
+				"io": 100,
+				"memory": 4096,
+				"vcpu": 2
+			},
 			"volume_mounts": [{
 				"mount_path": "/usr/share/elasticsearch/data",
 				"name": "es-client"
 			}]
-		}]
-	}, {
-		"name": "es-data",
+		}],
 		"description": "",
+		"name": "es-client",
+		"ports": [{
+			"is_public": true,
+			"is_websocket": false,
+			"path": "/",
+			"port": 9200,
+			"target_port": "http"
+		}, {
+			"is_public": false,
+			"is_websocket": false,
+			"port": 9300,
+			"target_port": "tcp"
+		}],
 		"resources": {
 			"replicas": 1
 		},
-		"restart": "always",
-		"labels": [],
-		"ports": [{
-			"is_public": false,
-			"target_port": "transport",
-			"is_websocket": false,
-			"port": 9300
-		}],
+		"restart": "always"
+	}, {
 		"containers": [{
-			"name": "es-data",
 			"description": "intended for storing and indexing data, no HTTP API",
-			"resources": {
-				"vcpu": 2,
-				"memory": 4096,
-				"io": 100
-			},
-			"image_url": "docker.elastic.co/elasticsearch/elasticsearch:6.2.3",
-			"ports": [{
-				"name": "transport",
-				"container_port": 9300
-			}],
 			"environment": [{
 				"name": "DISCOVERY_ZEN_PING_UNICAST_HOSTS",
 				"value": "elasticsearch"
@@ -248,37 +207,54 @@
 				"name": "HTTP_ENABLE",
 				"value": "false"
 			}],
-			"labels": [],
-			"commands": [],
+			"image_url": "docker.elastic.co/elasticsearch/elasticsearch:6.2.3",
+			"name": "es-data",
+			"ports": [{
+				"container_port": 9300,
+				"name": "transport"
+			}],
+			"resources": {
+				"io": 100,
+				"memory": 4096,
+				"vcpu": 2
+			},
 			"volume_mounts": [{
 				"mount_path": "/usr/share/elasticsearch/data",
 				"name": "es-data"
 			}]
-		}]
-	}],
-	"volumes": [{
-		"name": "es-master",
-		"access_mode": "ReadWriteOnce",
-		"size": 4,
-		"persistent": true,
-		"labels": []
-	}, {
+		}],
+		"description": "",
 		"name": "es-data",
-		"access_mode": "ReadWriteOnce",
-		"size": 100,
-		"persistent": true,
-		"labels": []
-	}, {
-		"name": "es-client",
-		"access_mode": "ReadWriteOnce",
-		"size": 4,
-		"persistent": true,
-		"labels": []
+		"ports": [{
+			"is_public": false,
+			"is_websocket": false,
+			"port": 9300,
+			"target_port": "transport"
+		}],
+		"resources": {
+			"replicas": 1
+		},
+		"restart": "always"
 	}],
-	"kpi_policies": [{
-		"name": "kibana",
-		"definition": {
-			"max_latency": "400ms"
-		}
+	"target_cloud": {
+		"region": "us-east-1",
+		"type": "aws",
+		"zone": "us-east-1a"
+	},
+	"volumes": [{
+		"access_mode": "ReadWriteOnce",
+		"name": "es-master",
+		"persistent": true,
+		"size": 4
+	}, {
+		"access_mode": "ReadWriteOnce",
+		"name": "es-data",
+		"persistent": true,
+		"size": 100
+	}, {
+		"access_mode": "ReadWriteOnce",
+		"name": "es-client",
+		"persistent": true,
+		"size": 4
 	}]
 }
