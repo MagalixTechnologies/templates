@@ -1,54 +1,48 @@
 {
-	"name": "rstudio",
 	"description": "RStudio is a free and open-source integrated development environment (IDE) for R, a programming language for statistical computing and graphics.",
-	"target_cloud": {
-		"type": "aws",
-		"region": "us-east-1",
-		"zone": "us-east-1a"
-	},
-	"labels": [],
+	"name": "rstudio",
 	"services": [{
-		"name": "rstudio",
-		"description": "",
-		"labels": [],
 		"containers": [{
-			"name": "rstudio",
 			"description": "RStudio is a free and open-source integrated development environment (IDE) for R, a programming language for statistical computing and graphics.",
 			"image_url": "btibert3/r-addons",
-			"commands": [],
+			"name": "rstudio",
 			"ports": [{
-				"name": "port1",
-				"container_port": 8787
+				"container_port": 8787,
+				"name": "port1"
 			}],
-			"labels": [],
-			"environment": [],
+			"resources": {
+				"io": 50,
+				"memory": 4096,
+				"vcpu": 1
+			},
 			"volume_mounts": [{
-				"name": "datasets",
-				"mount_path": "/datasets"
+				"mount_path": "/datasets",
+				"name": "datasets"
 			}]
 		}],
-		"resources": {
-			"vcpu": 1,
-			"memory": 1024,
-			"io": 10,
-			"replicas": 1
-		},
+		"description": "",
+		"name": "rstudio",
 		"ports": [{
 			"is_public": true,
-			"target_port": "port1",
-			"port": 80
-		}]
+			"is_websocket": false,
+			"path": "/",
+			"port": 80,
+			"target_port": "port1"
+		}],
+		"resources": {
+			"replicas": 1
+		},
+		"restart": "always"
 	}],
+	"target_cloud": {
+		"region": "us-east-1",
+		"type": "aws",
+		"zone": "us-east-1a"
+	},
 	"volumes": [{
+		"access_mode": "ReadWriteOnce",
 		"name": "datasets",
 		"persistent": true,
-		"size": 4,
-		"recycle_policy": "recycle",
-		"labels": [{
-			"label": "name",
-			"value": "dataset"
-		}],
-		"access_mode": "ReadWriteOnce"
-	}],
-	"kpi_policies": []
+		"size": 4
+	}]
 }

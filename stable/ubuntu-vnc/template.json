@@ -1,44 +1,40 @@
 {
-	"name": "ubuntu-desktop-vnc",
 	"description": "Ubuntu 16.04 LXDE with HTML-VNC interface.",
-	"target_cloud": {
-		"type": "aws",
-		"region": "us-east-1",
-		"zone": "us-east-1a"
-	},
-	"labels": [],
-	"volumes": [],
+	"name": "ubuntu-desktop-vnc",
 	"services": [{
-		"name": "ubuntu",
-		"description": "",
-		"labels": [],
 		"containers": [{
-			"name": "ubuntu",
 			"image_url": "dorowu/ubuntu-desktop-lxde-vnc",
-			"commands": [],
+			"name": "ubuntu",
 			"ports": [{
-				"name": "p6080",
-				"container_port": 6080
+				"container_port": 6080,
+				"name": "p6080"
 			}, {
-				"name": "p80",
-				"container_port": 80
+				"container_port": 80,
+				"name": "p80"
 			}],
-			"labels": [],
-			"environment": [],
-			"volume_mounts": []
+			"resources": {
+				"io": 40,
+				"memory": 8192,
+				"vcpu": 4
+			}
 		}],
-		"resources": {
-			"vcpu": 2,
-			"memory": 8192,
-			"io": 40,
-			"replicas": 1
-		},
+		"description": "",
+		"name": "ubuntu",
 		"ports": [{
 			"is_public": true,
-			"target_port": "p80",
+			"is_websocket": true,
+			"path": "/",
 			"port": 80,
-            "is_websocket": true
-		}]
+			"target_port": "p80"
+		}],
+		"resources": {
+			"replicas": 1
+		},
+		"restart": "always"
 	}],
-	"kpi_policies": []
+	"target_cloud": {
+		"region": "us-east-1",
+		"type": "aws",
+		"zone": "us-east-1a"
+	}
 }

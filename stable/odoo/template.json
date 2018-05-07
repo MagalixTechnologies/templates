@@ -1,11 +1,5 @@
 {
 	"description": "A suite of web based open source business apps.",
-	"kpi_policies": [{
-		"definition": {
-			"max_latency": "400ms"
-		},
-		"name": "odoo"
-	}],
 	"name": "odoo",
 	"services": [{
 		"containers": [{
@@ -28,6 +22,11 @@
 				"container_port": 5432,
 				"name": "postgresql"
 			}],
+			"resources": {
+				"io": 50,
+				"memory": 8192,
+				"vcpu": 4
+			},
 			"volume_mounts": [{
 				"mount_path": "/var/lib/postgresql/data/pgdata",
 				"name": "data"
@@ -36,15 +35,14 @@
 		"name": "odoopostgresql",
 		"ports": [{
 			"is_public": false,
+			"is_websocket": false,
 			"port": 5432,
 			"target_port": "postgresql"
 		}],
 		"resources": {
-			"io": 30,
-			"memory": 8192,
-			"replicas": 1,
-			"vcpu": 4
-		}
+			"replicas": 1
+		},
+		"restart": "always"
 	}, {
 		"containers": [{
 			"environment": [{
@@ -69,6 +67,11 @@
 				"container_port": 8069,
 				"name": "http"
 			}],
+			"resources": {
+				"io": 50,
+				"memory": 8192,
+				"vcpu": 4
+			},
 			"volume_mounts": [{
 				"mount_path": "/bitnami/odoo",
 				"name": "odoo-data"
@@ -77,17 +80,15 @@
 		"name": "odoo",
 		"ports": [{
 			"is_public": true,
-			"kpi_policy": "odoo",
+			"is_websocket": false,
 			"path": "/",
 			"port": 80,
 			"target_port": "http"
 		}],
 		"resources": {
-			"io": 30,
-			"memory": 8192,
-			"replicas": 1,
-			"vcpu": 4
-		}
+			"replicas": 1
+		},
+		"restart": "always"
 	}],
 	"target_cloud": {
 		"region": "us-east-1",
