@@ -1,89 +1,76 @@
 {
-	"name": "neo4j",
 	"description": "Neo4j The graph database platform powering todays mission-critical enterprise applications, including artificial intelligence, fraud detection and recommendations.",
-	"target_cloud": {
-		"type": "aws",
-		"region": "us-east-1",
-		"zone": "us-east-1a"
-	},
-	"labels": [],
+	"name": "neo4j",
 	"services": [{
-		"name": "neo4j",
-		"description": "Neo4j The graph database platform powering todays mission-critical enterprise applications, including artificial intelligence, fraud detection and recommendations.",
-		"labels": [],
 		"containers": [{
-			"name": "neo4j",
-			"image_url": "btibert3/neo4j-apoc-jdbc",
-			"commands": [],
-			"ports": [{
-				"name": "http",
-				"container_port": 7474
-			}, {
-				"name": "bolt",
-				"container_port": 7687
-			}],
-			"labels": [],
 			"environment": [{
 				"name": "NEO4J_AUTH",
 				"value": "none"
 			}],
+			"image_url": "btibert3/neo4j-apoc-jdbc",
+			"name": "neo4j",
+			"ports": [{
+				"container_port": 7474,
+				"name": "http"
+			}, {
+				"container_port": 7687,
+				"name": "bolt"
+			}],
+			"resources": {
+				"io": 10,
+				"memory": 8192,
+				"vcpu": 1
+			},
 			"volume_mounts": [{
-				"name": "neo4j-data",
-				"mount_path": "/data"
+				"mount_path": "/data",
+				"name": "neo4j-data"
 			}, {
-				"name": "neo4j-conf",
-				"mount_path": "/conf/"
+				"mount_path": "/conf/",
+				"name": "neo4j-conf"
 			}, {
-				"name": "neo4j-import",
-				"mount_path": "/var/lib/neo4j/import"
+				"mount_path": "/var/lib/neo4j/import",
+				"name": "neo4j-import"
 			}]
 		}],
-		"resources": {
-			"vcpu": 1,
-			"memory": 1024,
-			"io": 10,
-			"replicas": 1
-		},
+		"description": "Neo4j The graph database platform powering todays mission-critical enterprise applications, including artificial intelligence, fraud detection and recommendations.",
+		"name": "neo4j",
 		"ports": [{
 			"is_public": true,
-			"target_port": "http",
-			"port": 80
+			"is_websocket": true,
+			"path": "/",
+			"port": 80,
+			"target_port": "http"
 		}, {
 			"is_public": true,
-			"target_port": "bolt",
-			"port": 7687
-		}]
+			"is_websocket": true,
+			"path": "/",
+			"port": 7687,
+			"target_port": "bolt"
+		}],
+		"resources": {
+			"replicas": 1
+		},
+		"restart": "always"
 	}],
+	"target_cloud": {
+		"region": "us-east-1",
+		"type": "aws",
+		"zone": "us-east-1a"
+	},
 	"volumes": [{
+		"access_mode": "ReadWriteOnce",
 		"name": "neo4j-data",
 		"persistent": true,
-		"size": 4,
-		"recycle_policy": "recycle",
-		"labels": [{
-			"label": "name",
-			"value": "data"
-		}],
-		"access_mode": "ReadWriteOnce"
+		"size": 4
 	}, {
+		"access_mode": "ReadWriteOnce",
 		"name": "neo4j-conf",
 		"persistent": true,
-		"size": 4,
-		"recycle_policy": "recycle",
-		"labels": [{
-			"label": "name",
-			"value": "conf"
-		}],
-		"access_mode": "ReadWriteOnce"
+		"size": 4
 	}, {
+		"access_mode": "ReadWriteOnce",
 		"name": "neo4j-import",
 		"persistent": true,
-		"size": 4,
-		"recycle_policy": "recycle",
-		"labels": [{
-			"label": "name",
-			"value": "import"
-		}],
-		"access_mode": "ReadWriteOnce"
-	}],
-	"kpi_policies": []
+		"size": 4
+	}]
 }
