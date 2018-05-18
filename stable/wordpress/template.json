@@ -1,107 +1,44 @@
 {
-	"name": "wordpress",
 	"description": "This template describes how to run a persistent installation of WordPress and MySQL on Magalix. We'll use the mysql and wordpress official Docker images for this installation. (The WordPress image includes an Apache server).",
-	"target_cloud": {
-		"type": "aws",
-		"region": "us-east-1",
-		"zone": "us-east-1a"
-	},
-	"labels": [{
-		"label": "environment",
-		"value": "dev"
-	}, {
-		"label": "app",
-		"value": "wordpress"
-	}],
+	"name": "wordpress",
 	"services": [{
-		"name": "wordpress-mysql",
-		"description": "This service hosts my sql database, which uses a persistent volume for DB data",
-		"resources": {
-			"replicas": 1
-		},
-		"restart": "always",
-		"labels": [{
-			"label": "environment",
-			"value": "dev"
-		}, {
-			"label": "app",
-			"value": "wordpress"
-		}, {
-			"label": "role",
-			"value": "mysql"
-		}],
-		"ports": [{
-			"is_public": false,
-			"target_port": "mysql",
-			"is_websocket": false,
-			"port": 3306
-		}],
 		"containers": [{
-			"name": "mysql",
 			"description": "Master container of the redis cache ",
-			"resources": {
-				"vcpu": 4,
-				"memory": 8192,
-				"io": 100,
-				"icu": 28
-			},
-			"image_url": "mysql:5.7",
-			"ports": [{
-				"name": "mysql",
-				"container_port": 3306
-			}],
 			"environment": [{
 				"name": "MYSQL_ROOT_PASSWORD",
 				"value": "password!"
 			}],
-			"labels": [{
-				"label": "environment",
-				"value": "dev"
-			}, {
-				"label": "role",
-				"value": "master"
+			"image_url": "mysql:5.7",
+			"name": "mysql",
+			"ports": [{
+				"container_port": 3306,
+				"name": "mysql"
 			}],
-			"commands": [],
+			"resources": {
+				"io": 100,
+				"memory": 8192,
+				"vcpu": 4
+			},
 			"volume_mounts": [{
 				"mount_path": "/var/lib/mysql",
 				"name": "mysql-db"
 			}]
-		}]
-	}, {
-		"name": "wordpress",
-		"description": "wordpress service (includes Apache)",
-		"resources": {
-			"replicas": 2
-		},
-		"restart": "always",
-		"labels": [{
-			"label": "environment",
-			"value": "dev"
-		}, {
-			"label": "app",
-			"value": "wordpress"
 		}],
+		"description": "This service hosts my sql database, which uses a persistent volume for DB data",
+		"name": "wordpress-mysql",
 		"ports": [{
-			"is_public": true,
-			"target_port": "http-server",
+			"is_public": false,
 			"is_websocket": false,
-			"port": 80,
-			"kpi_policy": "wordpress"
+			"port": 3306,
+			"target_port": "mysql"
 		}],
+		"resources": {
+			"replicas": 1
+		},
+		"restart": "always"
+	}, {
 		"containers": [{
-			"name": "wordpress",
 			"description": "wordpress container, includes apache",
-			"resources": {
-				"vcpu": 4,
-				"memory": 8192,
-				"io": 100,
-				"icu": 56
-			},
-			"image_url": "wordpress:latest",
-			"ports": [{
-				"name": "http-server",
-				"container_port": 80
-			}],
 			"environment": [{
 				"name": "WORDPRESS_DB_HOST",
 				"value": "wordpress-mysql"
@@ -109,37 +46,50 @@
 				"name": "WORDPRESS_DB_PASSWORD",
 				"value": "password!"
 			}],
-			"labels": [{
-				"label": "environment",
-				"value": "dev"
-			}, {
-				"label": "app",
-				"value": "wordpress"
+			"image_url": "wordpress:latest",
+			"name": "wordpress",
+			"ports": [{
+				"container_port": 80,
+				"name": "http-server"
 			}],
-			"commands": [],
+			"resources": {
+				"io": 100,
+				"memory": 8192,
+				"vcpu": 4
+			},
 			"volume_mounts": [{
 				"mount_path": "/var/www/html",
 				"name": "wordpress-persistent-storage"
 			}]
-		}]
-	}],
-	"volumes": [{
-		"name": "mysql-db",
-		"access_mode": "ReadWriteOnce",
-		"size": 20,
-		"persistent": true,
-		"labels": []
-	}, {
-		"name": "wordpress-persistent-storage",
-		"access_mode": "ReadWriteOnce",
-		"size": 20,
-		"persistent": true,
-		"labels": []
-	}],
-	"kpi_policies": [{
+		}],
+		"description": "wordpress service (includes Apache)",
 		"name": "wordpress",
-		"definition": {
-			"max_latency": "800ms"
-		}
+		"ports": [{
+			"is_public": true,
+			"is_websocket": false,
+			"path": "/",
+			"port": 80,
+			"target_port": "http-server"
+		}],
+		"resources": {
+			"replicas": 2
+		},
+		"restart": "always"
+	}],
+	"target_cloud": {
+		"region": "us-east-1",
+		"type": "aws",
+		"zone": "us-east-1a"
+	},
+	"volumes": [{
+		"access_mode": "ReadWriteOnce",
+		"name": "mysql-db",
+		"persistent": true,
+		"size": 20
+	}, {
+		"access_mode": "ReadWriteOnce",
+		"name": "wordpress-persistent-storage",
+		"persistent": true,
+		"size": 20
 	}]
 }

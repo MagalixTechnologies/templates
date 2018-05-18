@@ -1,95 +1,73 @@
 {
-  "description": "DokuWiki is a standards-compliant, simple to use wiki optimized for creating documentation. It is targeted at developer teams, workgroups, and small companies. All data is stored in plain text files, so no database is required.",
-  "labels": [{
-    "label": "label1",
-    "value": "dokuwiki"
-  }, {
-    "label": "label2",
-    "value": "wiki"
-  }, {
-    "label": "label3",
-    "value": "php"
-  }, {
-    "label": "version",
-    "value": "0.2.0"
-  }],
-  "name": "dokuwiki",
-  "services": [{
-    "containers": [{
-      "environment": [{
-        "name": "DOKUWIKI_USERNAME",
-        "value": "user"
-      }, {
-        "name": "DOKUWIKI_FULL_NAME",
-        "value": "Full Name"
-      }, {
-        "name": "DOKUWIKI_PASSWORD",
-        "value": "anRWQkNPQnc3Sg=="
-      }, {
-        "name": "DOKUWIKI_EMAIL",
-        "value": "user@example.com"
-      }, {
-        "name": "DOKUWIKI_WIKI_NAME",
-        "value": "My Wiki"
-      }],
-      "image_url": "bitnami/dokuwiki:latest",
-      "name": "dokuwiki",
-      "ports": [{
-        "container_port": 80,
-        "name": "http"
-      }, {
-        "container_port": 443,
-        "name": "https"
-      }],
-      "volume_mounts": [{
-        "mount_path": "/bitnami/dokuwiki",
-        "name": "dokuwiki-data"
-      }, {
-        "mount_path": "/bitnami/apache",
-        "name": "apache-data"
-      }]
-    }],
-    "labels": [{
-      "label": "app",
-      "value": "dokuwiki"
-    }, {
-      "label": "chart",
-      "value": "dokuwiki-0.2.0"
-    }, {
-      "label": "heritage",
-      "value": "Tiller"
-    }],
-    "name": "dokuwiki",
-    "ports": [{
-      "is_public": true,
-      "name": "http",
-      "path": "/",
-      "port": 80,
-      "target_port": "http"
-    }],
-    "resources": {
-      "io": 10,
-      "memory": 512,
-      "replicas": 1,
-      "vcpu": 1
-    }
-  }],
-  "target_cloud": {
-    "region": "us-east-1",
-    "type": "aws",
-    "zone": "us-east-1a"
-  },
-  "volumes": [{
-    "access_mode": "ReadWriteOnce",
-    "name": "dokuwiki-data",
-    "persistent": true,
-    "recycle_policy": "recycle",
-    "size": 8
-  }, {
-    "access_mode": "ReadWriteOnce",
-    "name": "apache-data",
-    "persistent": true,
-    "recycle_policy": "recycle",
-    "size": 4
-  }]
+	"description": "DokuWiki is a standards-compliant, simple to use wiki optimized for creating documentation. It is targeted at developer teams, workgroups, and small companies. All data is stored in plain text files, so no database is required.",
+	"name": "dokuwiki",
+	"services": [{
+		"containers": [{
+			"environment": [{
+				"name": "DOKUWIKI_USERNAME",
+				"value": "user"
+			}, {
+				"name": "DOKUWIKI_FULL_NAME",
+				"value": "Full Name"
+			}, {
+				"name": "DOKUWIKI_PASSWORD",
+				"value": "anRWQkNPQnc3Sg=="
+			}, {
+				"name": "DOKUWIKI_EMAIL",
+				"value": "user@example.com"
+			}, {
+				"name": "DOKUWIKI_WIKI_NAME",
+				"value": "My Wiki"
+			}],
+			"image_url": "bitnami/dokuwiki:latest",
+			"name": "dokuwiki",
+			"ports": [{
+				"container_port": 80,
+				"name": "http"
+			}, {
+				"container_port": 443,
+				"name": "https"
+			}],
+			"resources": {
+				"io": 50,
+				"memory": 4096,
+				"vcpu": 1
+			},
+			"volume_mounts": [{
+				"mount_path": "/bitnami/dokuwiki",
+				"name": "dokuwiki-data"
+			}, {
+				"mount_path": "/bitnami/apache",
+				"name": "apache-data"
+			}]
+		}],
+		"name": "dokuwiki",
+		"ports": [{
+			"is_public": true,
+			"is_websocket": false,
+			"path": "/",
+			"port": 80,
+			"target_port": "http"
+		}],
+		"resources": {
+			"replicas": 1
+		},
+		"restart": "always"
+	}],
+	"target_cloud": {
+		"region": "us-east-1",
+		"type": "aws",
+		"zone": "us-east-1a"
+	},
+	"volumes": [{
+		"access_mode": "ReadWriteOnce",
+		"name": "dokuwiki-data",
+		"persistent": true,
+		"size": 8
+	}, {
+		"access_mode": "ReadWriteOnce",
+		"name": "apache-data",
+		"persistent": true,
+		"size": 4
+	}]
 }
