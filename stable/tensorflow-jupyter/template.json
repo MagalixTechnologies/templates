@@ -1,40 +1,37 @@
 {
-	"name": "tensorflow-jupyter",
 	"description": "tensorflow-jupyter notebook",
-	"target_cloud": {
-		"type": "aws",
-		"region": "us-east-1",
-		"zone": "us-east-1a"
-	},
-	"labels": [],
+	"name": "tensorflow-jupyter",
 	"services": [{
-		"name": "tensorflow",
-		"description": "",
-		"labels": [],
 		"containers": [{
+			"image_url": "tensorflow/tensorflow:latest",
 			"name": "tensorflow",
-			"image_url": "gcr.io/tensorflow/tensorflow",
-			"commands": [],
 			"ports": [{
-				"name": "p8888",
-				"container_port": 8888
+				"container_port": 8888,
+				"name": "p8888"
 			}],
-			"labels": [],
-			"environment": [],
-			"volume_mounts": []
+			"resources": {
+				"io": 100,
+				"memory": 8192,
+				"vcpu": 8
+			}
 		}],
-		"resources": {
-			"vcpu": 4,
-			"memory": 4096,
-			"io": 50,
-			"replicas": 1
-		},
+		"description": "",
+		"name": "tensorflow",
 		"ports": [{
 			"is_public": true,
-			"target_port": "p8888",
-			"port": 80
-		}]
+			"is_websocket": true,
+			"path": "/",
+			"port": 80,
+			"target_port": "p8888"
+		}],
+		"resources": {
+			"replicas": 1
+		},
+		"restart": "always"
 	}],
-	"volumes": [],
-	"kpi_policies": []
+	"target_cloud": {
+		"region": "us-east-1",
+		"type": "aws",
+		"zone": "us-east-1a"
+	}
 }
