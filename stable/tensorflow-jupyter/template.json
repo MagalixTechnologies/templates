@@ -3,16 +3,16 @@
 	"name": "tensorflow-jupyter",
 	"services": [{
 		"containers": [{
-			"image_url": "gcr.io/tensorflow/tensorflow",
+			"image_url": "tensorflow/tensorflow:latest",
 			"name": "tensorflow",
 			"ports": [{
 				"container_port": 8888,
 				"name": "p8888"
 			}],
 			"resources": {
-				"io": 50,
-				"memory": 4096,
-				"vcpu": 4
+				"io": 100,
+				"memory": 8192,
+				"vcpu": 8
 			}
 		}],
 		"description": "",
