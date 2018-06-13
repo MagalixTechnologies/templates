@@ -22,7 +22,8 @@
 			"volume_mounts": [{
 				"mount_path": "/var/lib/mysql",
 				"name": "mysql-db"
-			}]
+			}],
+			"args":["--ignore-db-dir=lost+found"]
 		}],
 		"description": "This service hosts my sql database, which uses a persistent volume for DB data",
 		"name": "wordpress-mysql",
