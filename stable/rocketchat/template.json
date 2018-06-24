@@ -3,11 +3,12 @@
 	"name": "rocketchat",
 	"services": [{
 		"containers": [{
-			"image_url": "mongo:3.4.7",
-			"name": "coy-scorpion-mongodb",
+			"image_url": "mongo:3.4",
+			"name": "mongodb",
 			"ports": [{
 				"container_port": 27017,
-				"name": "mongodb"
+				"name": "mongodb",
+				"protocol": "TCP"
 			}],
 			"resources": {
 				"io": 50,
@@ -19,11 +20,12 @@
 				"name": "data"
 			}]
 		}],
-		"name": "coy-scorpion-mongodb",
+		"name": "mongodb",
 		"ports": [{
 			"is_public": false,
 			"is_websocket": false,
 			"port": 27017,
+			"protocol": "TCP",
 			"target_port": "mongodb"
 		}],
 		"resources": {
@@ -37,7 +39,7 @@
 				"value": "helm-chart"
 			}, {
 				"name": "MONGO_URL",
-				"value": "mongodb://coy-scorpion-mongodb:27017/rocketchat"
+				"value": "mongodb://mongodb:27017/rocketchat"
 			}, {
 				"name": "MAIL_URL",
 				"value": "c210cDovLyUhcyg8bmlsPik6JSFzKDxuaWw+KUAlIXMoPG5pbD4pOiUhcyg8bmlsPik="
@@ -67,10 +69,11 @@
 				"value": "false"
 			}],
 			"image_url": "rocket.chat:0.56",
-			"name": "coy-scorpion-rocketchat",
+			"name": "rocketchat",
 			"ports": [{
 				"container_port": 3000,
-				"name": "http"
+				"name": "http",
+				"protocol": "TCP"
 			}],
 			"resources": {
 				"io": 50,
@@ -82,12 +85,13 @@
 				"name": "rocket-data"
 			}]
 		}],
-		"name": "coy-scorpion-rocketchat",
+		"name": "rocketchat",
 		"ports": [{
 			"is_public": true,
-			"is_websocket": false,
+			"is_websocket": true,
 			"path": "/",
 			"port": 3000,
+			"protocol": "TCP",
 			"target_port": "http"
 		}],
 		"resources": {
