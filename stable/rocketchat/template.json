@@ -108,11 +108,11 @@
 		"access_mode": "ReadWriteOnce",
 		"name": "data",
 		"persistent": true,
-		"size": 10
+		"size": 8
 	}, {
 		"access_mode": "ReadWriteOnce",
 		"name": "rocket-data",
 		"persistent": true,
-		"size": 10
+		"size": 8
 	}]
 }
