@@ -86,11 +86,11 @@
 		"access_mode": "ReadWriteOnce",
 		"name": "mysql-db",
 		"persistent": true,
-		"size": 10
+		"size": 8
 	}, {
 		"access_mode": "ReadWriteOnce",
 		"name": "wordpress-persistent-storage",
 		"persistent": true,
-		"size": 10
+		"size": 8
 	}]
 }

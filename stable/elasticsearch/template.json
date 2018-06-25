@@ -250,7 +250,7 @@
 		"access_mode": "ReadWriteOnce",
 		"name": "es-data",
 		"persistent": true,
-		"size": 10
+		"size": 8
 	}, {
 		"access_mode": "ReadWriteOnce",
 		"name": "es-client",
